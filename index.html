@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>stage.tn - Le matching intelligent pour vos stages en Tunisie</title>
+    <!-- Polices élégantes Playfair Display et Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400;1,700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: #072d38; color: #ffffff; line-height: 1.6; }
+        
+        h1, h2, h3, .hero-tag {
+            font-family: 'Playfair Display', serif !important;
+        }
+
+        /* Barre d'annonce supérieure */
+        .promo-banner { background-color: #43342d; color: #ffffff; padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .promo-text { font-size: 14px; font-weight: 400; display: flex; align-items: center; gap: 8px; flex: 1; min-width: 280px; }
+        .promo-text strong { font-weight: 600; }
+        .promo-btn { background-color: #b87363; color: #ffffff; border: none; padding: 10px 22px; border-radius: 30px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.2s; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .promo-btn:hover { background-color: #a46253; }
+
+        /* Navigation & Logo stage.tn */
+        .navbar { display: flex; justify-content: space-between; align-items: center; background-color: #072d38; padding: 20px 50px; border-bottom: 1px solid rgba(255,255,255,0.1); position: sticky; top: 0; z-index: 1000; }
+        
+        .logo-container { display: flex; align-items: baseline; cursor: pointer; text-decoration: none; }
+        .logo-text { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 800; color: #ffffff; letter-spacing: 0.5px; }
+        .logo-tld { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 800; color: #00ca84; font-style: italic; margin-left: 2px; }
+
+        .nav-links { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
+        .nav-links a { text-decoration: none; color: #ffffff; font-weight: 500; cursor: pointer; padding: 6px 12px; border-radius: 6px; transition: 0.2s; }
+        .nav-links a:hover { color: #00ca84; background: rgba(255,255,255,0.05); }
+        .btn-connexion { border: 1px solid rgba(255,255,255,0.3); }
+        .cart-badge { background-color: #00ca84; color: #072d38; padding: 2px 8px; border-radius: 10px; font-weight: bold; font-size: 14px; }
+
+        .page-section { display: none; padding: 40px 50px; max-width: 1200px; margin: 0 auto; min-height: 80vh; }
+        .page-section.active { display: block; }
+
+        /* Hero Style */
+        .hero { display: flex; justify-content: space-between; align-items: center; padding: 40px 0; gap: 40px; flex-wrap: wrap; }
+        .hero-left { flex: 1; min-width: 300px; }
+        .hero-tag { color: #00ca84; font-size: 14px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; display: block; }
+        .hero h1 { font-size: 50px; font-weight: 800; line-height: 1.15; margin-bottom: 20px; }
+        .hero h1 span { color: #00ca84; font-style: italic; }
+        .hero p { font-size: 17px; color: #cbd5e1; margin-bottom: 30px; font-weight: 300; }
+
+        /* Diaporama */
+        .hero-right { flex: 1; min-width: 300px; text-align: center; }
+        .box { width: 100%; max-width: 450px; height: 320px; margin: 0 auto; border-radius: 16px; overflow: hidden; border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 15px 35px rgba(0,0,0,0.5); background-color: #052129; }
+        .box img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Recherche */
+        .search-box { background: white; padding: 15px; border-radius: 12px; display: flex; gap: 10px; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); margin-top: 20px; }
+        .search-field { flex: 1; padding: 8px 12px; }
+        .search-field label { display: block; font-size: 12px; color: #64748b; font-weight: bold; margin-bottom: 2px; }
+        .search-field input { width: 100%; border: none; outline: none; font-size: 15px; color: #0f172a; }
+        .btn-search, .btn-action { background-color: #00ca84; color: #072d38; font-weight: bold; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; transition: 0.2s; }
+        .btn-search:hover, .btn-action:hover { background-color: #00b073; }
+
+        /* Catégories & Grille */
+        .categories-section { margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .categories-section h2 { font-size: 32px; margin-bottom: 25px; color: #ffffff; }
+        .cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .cat-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 20px; border-radius: 12px; text-align: center; cursor: pointer; transition: transform 0.3s; }
+        .cat-card:hover { transform: translateY(-5px); border-color: #00ca84; }
+        .cat-card h3 { font-size: 22px; color: #00ca84; margin-bottom: 8px; font-family: 'Playfair Display', serif; }
+        .cat-card p { color: #cbd5e1; font-size: 13px; margin-bottom: 15px; }
+        .btn-cat { background: transparent; border: 1px solid #00ca84; color: #00ca84; padding: 6px 14px; border-radius: 6px; font-weight: bold; font-family: 'Poppins', sans-serif; }
+
+        .filter-buttons { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 30px; }
+        .filter-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: 500; transition: 0.2s; }
+        .filter-btn:hover, .filter-btn.active { background-color: #00ca84; color: #072d38; border-color: #00ca84; font-weight: bold; }
+
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+        
+        .product-card { background: rgba(255,255,255,0.05); padding: 22px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; }
+        .product-card:hover { border-color: #00ca84; box-shadow: 0 10px 25px rgba(0,202,132,0.1); }
+        .product-card h3 { font-size: 20px; margin-bottom: 15px; color: #fff; font-family: 'Playfair Display', serif; line-height: 1.3; }
+        
+        .badges-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        .badge { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); padding: 5px 12px; border-radius: 20px; font-size: 13px; color: #cbd5e1; display: inline-flex; align-items: center; gap: 6px; font-weight: 400; }
+        .badge-cat { color: #00ca84; border-color: rgba(0, 202, 132, 0.3); background: rgba(0, 202, 132, 0.05); font-weight: 500; }
+
+        .btn-add { background-color: #00ca84; color: #072d38; border: none; padding: 10px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; font-family: 'Poppins', sans-serif; }
+        .btn-add:hover { background-color: #00b073; }
+
+        /* Formulaires & Panier */
+        .form-container { max-width: 450px; background: rgba(255,255,255,0.05); padding: 30px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); margin: 0 auto; }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 5px; font-size: 14px; color: #cbd5e1; }
+        .form-group input { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: white; font-size: 15px; }
+        
+        .cart-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: rgba(255,255,255,0.03); border-radius: 10px; overflow: hidden; }
+        .cart-table th, .cart-table td { padding: 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .cart-table th { background-color: #052129; color: #00ca84; font-family: 'Playfair Display', serif; }
+        .qty-btn { background: #00ca84; color: #072d38; border: none; padding: 5px 10px; font-weight: bold; cursor: pointer; border-radius: 4px; }
+        .del-btn { background: #ff4d4d; color: white; border: none; padding: 6px 12px; font-weight: bold; cursor: pointer; border-radius: 4px; font-family: 'Poppins', sans-serif; }
+        .cart-summary { margin-top: 20px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; text-align: right; }
+
+        footer { text-align: center; padding: 30px; background-color: #052129; color: #94a3b8; margin-top: 60px; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <!-- Barre d'annonce supérieure -->
+    <div class="promo-banner">
+        <div class="promo-text">
+            <span>🌱</span> <strong>Offre Spéciale :</strong> Profitez de vos 3 premiers jours GRATUITS ! À partir du 4ème jour, l'abonnement complet est à seulement <strong>2 TND / mois</strong>.
+        </div>
+        <button class="promo-btn" onclick="switchPage('offres')">Obtenir 3 jours gratuits</button>
+    </div>
+
+    <!-- Header & Navigation avec "Nos conseils pour ton stage" -->
+    <header class="navbar">
+        <div class="logo-container" onclick="switchPage('accueil')">
+            <span class="logo-text">stage</span><span class="logo-tld">.tn</span>
+        </div>
+        <nav class="nav-links">
+            <a onclick="switchPage('accueil')">Accueil</a>
+            <a onclick="switchPage('offres'); afficherOffres('Tous');">Offres & Catégories</a>
+            <a onclick="switchPage('conseils')">Nos conseils pour ton stage</a>
+            <a onclick="switchPage('panier')">🛒 Panier <span id="cartCount" class="cart-badge">0</span></a>
+            <a class="btn-connexion" id="navAuthLink" onclick="clicConnexion()">Se connecter</a>
+        </nav>
+    </header>
+
+    <!-- PAGE ACCUEIL -->
+    <div id="accueil" class="page-section active">
+        <div class="hero">
+            <div class="hero-left">
+                <span class="hero-tag">STAGES ET ALTERNANCE EN TUNISIE & TECH</span>
+                <h1>Trouve ton stage ou ton alternance. On t'aide à <span>décrocher.</span></h1>
+                <p>Des offres triées par métier et par spécialité, et un espace intelligent pour t'aider à postuler.</p>
+                
+                <div class="search-box">
+                    <div class="search-field">
+                        <label>Quoi ?</label>
+                        <input type="text" id="searchInput" placeholder="Métier, diplôme...">
+                    </div>
+                    <button class="btn-search" onclick="rechercherOffre()">Rechercher</button>
+                </div>
+            </div>
+
+            <!-- Diaporama -->
+            <div class="hero-right">
+                <div class="box">
+                    <img id="maPhoto" src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500" alt="Diaporama">
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Catégories -->
+        <div class="categories-section">
+            <h2>Explore par Catégorie de Formation</h2>
+            <div class="cat-grid">
+                <div class="cat-card" onclick="filtrerPar('Licence')">
+                    <h3>Licence</h3>
+                    <p>Stages de fin d'année et PFE pour étudiants en Licence.</p>
+                    <button class="btn-cat">Voir les offres</button>
+                </div>
+                <div class="cat-card" onclick="filtrerPar('Ingénieur')">
+                    <h3>Ingénieur</h3>
+                    <p>Stages techniques et PFE pour cycles d'ingénieurs.</p>
+                    <button class="btn-cat">Voir les offres</button>
+                </div>
+                <div class="cat-card" onclick="filtrerPar('Master')">
+                    <h3>Master</h3>
+                    <p>Opportunités de stages professionnels et de recherche.</p>
+                    <button class="btn-cat">Voir les offres</button>
+                </div>
+                <div class="cat-card" onclick="filtrerPar('Doctorat')">
+                    <h3>Doctorat / Recherche</h3>
+                    <p>Thèses en entreprise et stages scientifiques avancés.</p>
+                    <button class="btn-cat">Voir les offres</button>
+                </div>
+                <div class="cat-card" onclick="filtrerPar('BTS')">
+                    <h3>Technicien / BTS</h3>
+                    <p>Stages ouvriers et de perfectionnement technique.</p>
+                    <button class="btn-cat">Voir les offres</button>
+                </div>
+                <div class="cat-card" onclick="filtrerPar('Tech')">
+                    <h3>Cybersécurité & Dev</h3>
+                    <p>Développement web, mobile et sécurité informatique.</p>
+                    <button class="btn-cat">Voir les offres</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE OFFRES & CATEGORIES -->
+    <div id="offres" class="page-section">
+        <h1 style="color:white; margin-bottom:10px;">Catalogue Complet des Offres de Stages</h1>
+        <p style="color:#cbd5e1; margin-bottom:20px;">Sélectionne une catégorie ci-dessous pour filtrer instantanément :</p>
+        
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filtrerPar('Tous')">Tous</button>
+            <button class="filter-btn" onclick="filtrerPar('Licence')">Licence</button>
+            <button class="filter-btn" onclick="filtrerPar('Ingénieur')">Ingénieur</button>
+            <button class="filter-btn" onclick="filtrerPar('Master')">Master</button>
+            <button class="filter-btn" onclick="filtrerPar('Doctorat')">Doctorat</button>
+            <button class="filter-btn" onclick="filtrerPar('BTS')">BTS / Technicien</button>
+            <button class="filter-btn" onclick="filtrerPar('Tech')">Cybersécurité & Dev</button>
+        </div>
+
+        <div class="product-grid" id="offresContainer"></div>
+    </div>
+
+    <!-- PAGE CONSEILS POUR TON STAGE -->
+    <div id="conseils" class="page-section">
+        <h1 style="color:white; margin-bottom:15px;">Nos conseils pour réussir ton stage</h1>
+        <p style="color:#cbd5e1; margin-bottom:30px;">Retrouve les meilleures pratiques pour décrocher et réussir ton stage en Tunisie :</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <div style="background: rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+                <h3 style="color: #00ca84; margin-bottom: 10px;">1. Soigne ton CV et ta lettre</h3>
+                <p style="color: #cbd5e1; font-size: 14px;">Adapte ton CV en fonction de l'offre visée. Mets en avant tes projets académiques et tes compétences techniques clés.</p>
+            </div>
+            <div style="background: rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+                <h3 style="color: #00ca84; margin-bottom: 10px;">2. Prépare tes entretiens</h3>
+                <p style="color: #cbd5e1; font-size: 14px;">Renseigne-toi bien sur l'entreprise avant l'entretien, prépare ton pitch de présentation et montre de la motivation.</p>
+            </div>
+            <div style="background: rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+                <h3 style="color: #00ca84; margin-bottom: 10px;">3. Sois proactif pendant le stage</h3>
+                <p style="color: #cbd5e1; font-size: 14px;">pose des questions, propose des idées et intègre-toi au sein de l'équipe pour transformer ton stage en opportunité d'embauche.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE PANIER DÉTAILLÉ -->
+    <div id="panier" class="page-section">
+        <h1 style="color:white; margin-bottom:20px;">Mon Panier de Candidatures</h1>
+        <div id="cartContent"></div>
+    </div>
+
+    <!-- PAGE CHECKOUT / COMMANDE -->
+    <div id="checkout" class="page-section">
+        <h1 style="color:white; margin-bottom:20px;">Finaliser ma Commande / Candidature</h1>
+        <div class="form-container" style="max-width: 600px;">
+            <h3 style="color:#00ca84; margin-bottom:15px;">Informations de Contact</h3>
+            <div class="form-group"><label>Prénom & Nom</label><input type="text" id="chkNom" placeholder="Samad..."></div>
+            <div class="form-group"><label>Adresse e-mail</label><input type="email" id="chkEmail" placeholder="samad@gmail.com"></div>
+            <div class="form-group"><label>Téléphone</label><input type="text" id="chkTel" placeholder="+216 ..."></div>
+            
+            <h3 style="color:#00ca84; margin:20px 0 15px 0;">Paiement Simulé (Aucun prélèvement réel)</h3>
+            <div class="form-group"><label>Numéro de carte (Démonstration)</label><input type="text" value="**** **** **** 4242" disabled></div>
+            
+            <button class="btn-action" style="width:100%; margin-top:15px;" onclick="validerCommandeSimulee()">Confirmer la commande</button>
+        </div>
+    </div>
+
+    <!-- PAGE CONNEXION -->
+    <div id="connexion" class="page-section">
+        <div class="form-container">
+            <h1 style="color:white; margin-bottom:20px; font-size:26px;">Connexion</h1>
+            <div class="form-group"><label>Adresse e-mail</label><input type="email" id="loginEmail"></div>
+            <div class="form-group"><label>Mot de passe</label><input type="password" id="loginPass"></div>
+            <button class="btn-action" style="width:100%; margin-top:10px;" onclick="connecterUtilisateur()">Se connecter</button>
+            <p style="margin-top:20px; text-align:center; color:#cbd5e1; font-size:14px;">Pas encore de compte ? <a style="color:#00ca84; cursor:pointer;" onclick="switchPage('inscription')">S'inscrire</a></p>
+        </div>
+    </div>
+
+    <!-- PAGE INSCRIPTION -->
+    <div id="inscription" class="page-section">
+        <div class="form-container">
+            <h1 style="color:white; margin-bottom:20px; font-size:26px;">Créer un Compte</h1>
+            <div class="form-group"><label>Prénom & Nom</label><input type="text" id="regNom"></div>
+            <div class="form-group"><label>Adresse e-mail</label><input type="email" id="regEmail"></div>
+            <div class="form-group"><label>Mot de passe</label><input type="password" id="regPass"></div>
+            <button class="btn-action" style="width:100%; margin-top:10px;" onclick="inscrireUtilisateur()">S'inscrire</button>
+            <p style="margin-top:20px; text-align:center; color:#cbd5e1; font-size:14px;">Déjà inscrit ? <a style="color:#00ca84; cursor:pointer;" onclick="switchPage('connexion')">Se connecter</a></p>
+        </div>
+    </div>
+
+    <!-- PAGE VÉRIFICATION E-MAIL SIMULÉE -->
+    <div id="verification" class="page-section">
+        <div class="form-container" style="text-align: center;">
+            <h1 style="color:white; margin-bottom:15px; font-size:26px;">Vérification de l'E-mail</h1>
+            <p style="color:#cbd5e1; margin-bottom:20px; font-size:14px;">Pour la démonstration, entrez le code de sécurité simulé : <strong style="color:#00ca84;">123456</strong></p>
+            <div class="form-group"><input type="text" id="verifCodeInput" placeholder="Entrez 123456" style="text-align:center; font-size:18px; letter-spacing:3px;"></div>
+            <button class="btn-action" style="width:100%; margin-top:10px;" onclick="validerCodeVerification()">Vérifier</button>
+        </div>
+    </div>
+
+    <!-- PAGE ESPACE UTILISATEUR (MON COMPTE) -->
+    <div id="compte" class="page-section">
+        <div class="form-container" style="max-width: 700px;">
+            <h1 style="color:#00ca84; margin-bottom:15px; font-size:26px;">Mon Espace Personnel</h1>
+            <div id="userInfo" style="margin-bottom: 25px; color:#cbd5e1; font-size:16px;"></div>
+            
+            <h3 style="color:white; margin-bottom:15px; font-size:20px;">Mes Commandes / Candidatures Validées</h3>
+            <div id="userOrders"></div>
+
+            <button class="btn-action" style="background:#ff4d4d; color:white; margin-top:30px;" onclick="deconnecterUtilisateur()">Se déconnecter</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 stage.tn. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        // Catalogue des 25 offres de stage
+        const offresData = [
+            { id: 1, titre: "Stage Licence - Développeur Web Junior", cat: "Licence", lieu: "Tunis • Stage PFE" },
+            { id: 2, titre: "Stage Licence - Assistant Comptable & Gestion", cat: "Licence", lieu: "Sousse • 3 Mois" },
+            { id: 3, titre: "Stage Licence - Marketing Digital & Social Media", cat: "Licence", lieu: "Sfax • 2 Mois" },
+            { id: 4, titre: "Stage Licence - Support Technique & Helpdesk", cat: "Licence", lieu: "Bizerte • 3 Mois" },
+            { id: 5, titre: "Stage Licence - Assistant RH & Recrutement", cat: "Licence", lieu: "Tunis • 3 Mois" },
+            { id: 6, titre: "Stage Ingénieur - IA & Data Science", cat: "Ingénieur", lieu: "Tunis • Alternance" },
+            { id: 7, titre: "Stage Ingénieur - Architecture Logicielle & Cloud", cat: "Ingénieur", lieu: "Sfax • PFE" },
+            { id: 8, titre: "Stage Ingénieur - Automatisation & IoT", cat: "Ingénieur", lieu: "Sousse • PFE" },
+            { id: 9, titre: "Stage Ingénieur - DevOps & Intégration Continue", cat: "Ingénieur", lieu: "Tunis • 6 Mois" },
+            { id: 10, titre: "Stage Ingénieur - Cybersécurité des Réseaux", cat: "Ingénieur", lieu: "Ariana • PFE" },
+            { id: 11, titre: "Stage Master - Chef de Projet Digital", cat: "Master", lieu: "Tunis • 6 Mois" },
+            { id: 12, titre: "Stage Master - Analyse Financière & Risques", cat: "Master", lieu: "Sousse • Stage PFE" },
+            { id: 13, titre: "Stage Master - Supply Chain & Logistique Internationale", cat: "Master", lieu: "Radès • 4 Mois" },
+            { id: 14, titre: "Stage Master - Business Intelligence & Big Data", cat: "Master", lieu: "Tunis • PFE" },
+            { id: 15, titre: "Mission Recherche & Développement - IoT", cat: "Doctorat", lieu: "Tunis • Thèse CIFRE" },
+            { id: 16, titre: "Stage Recherche - Modélisation Mathématique Avancée", cat: "Doctorat", lieu: "Sfax • 6 Mois" },
+            { id: 17, titre: "Stage Recherche - Intelligence Artificielle Avancée", cat: "Doctorat", lieu: "Tunis • Thèse" },
+            { id: 18, titre: "Stage Technicien - Réseaux & Télécoms", cat: "BTS", lieu: "Monastir • Stage Ouvrier" },
+            { id: 19, titre: "Stage BTS - Assistant Administratif & Commercial", cat: "BTS", lieu: "Nabeul • 2 Mois" },
+            { id: 20, titre: "Stage Technicien Supérieur - Maintenance Industrielle", cat: "BTS", lieu: "Gabès • 3 Mois" },
+            { id: 21, titre: "Stage BTS - Infographie & Design UI/UX", cat: "BTS", lieu: "Sousse • 3 Mois" },
+            { id: 22, titre: "Stage Cybersécurité - Analyste SOC Junior", cat: "Tech", lieu: "Tunis • PFE" },
+            { id: 23, titre: "Stage Dev Fullstack - React & Node.js", cat: "Tech", lieu: "Sousse • Alternance" },
+            { id: 24, titre: "Stage Mobile - Flutter & Applications Natives", cat: "Tech", lieu: "Tunis • 4 Mois" },
+            { id: 25, titre: "Stage Cloud - DevOps & Docker / Kubernetes", cat: "Tech", lieu: "Ariana • PFE" }
+        ];
+
+        function afficherOffres(filtre = 'Tous') {
+            const container = document.getElementById('offresContainer');
+            container.innerHTML = '';
+            const offresFiltrees = filtre === 'Tous' ? offresData : offresData.filter(o => o.cat === filtre);
+
+            offresFiltrees.forEach(offre => {
+                container.innerHTML += `
+                    <div class="product-card">
+                        <div>
+                            <h3>${offre.titre}</h3>
+                            <div class="badges-container">
+                                <span class="badge badge-cat">📁 ${offre.cat}</span>
+                                <span class="badge">📍 ${offre.lieu}</span>
+                            </div>
+                        </div>
+                        <button class="btn-add" onclick="ajouterAuPanier(${offre.id})">Ajouter au panier</button>
+                    </div>
+                `;
+            });
+        }
+
+        function filtrerPar(categorie) {
+            switchPage('offres');
+            afficherOffres(categorie);
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.innerText.includes(categorie) || (categorie === 'Tous' && btn.innerText === 'Tous')) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        function rechercherOffre() {
+            const texte = document.getElementById('searchInput').value.toLowerCase();
+            switchPage('offres');
+            const container = document.getElementById('offresContainer');
+            container.innerHTML = '';
+            const resultat = offresData.filter(o => o.titre.toLowerCase().includes(texte) || o.cat.toLowerCase().includes(texte));
+
+            if (resultat.length === 0) {
+                container.innerHTML = '<p style="color:#cbd5e1;">Aucun résultat trouvé.</p>';
+                return;
+            }
+
+            resultat.forEach(offre => {
+                container.innerHTML += `
+                    <div class="product-card">
+                        <div>
+                            <h3>${offre.titre}</h3>
+                            <div class="badges-container">
+                                <span class="badge badge-cat">📁 ${offre.cat}</span>
+                                <span class="badge">📍 ${offre.lieu}</span>
+                            </div>
+                        </div>
+                        <button class="btn-add" onclick="ajouterAuPanier(${offre.id})">Ajouter au panier</button>
+                    </div>
+                `;
+            });
+        }
+
+        function switchPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+            if(pageId === 'panier') afficherPanier();
+            if(pageId === 'compte') chargerEspaceCompte();
+        }
+
+        // Diaporama
+        const listeImages = [
+            "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500",
+            "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=500",
+            "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500",
+            "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=500"
+        ];
+        let index = 0;
+        setInterval(() => {
+            index = (index + 1) % listeImages.length;
+            const imgElement = document.getElementById('maPhoto');
+            if (imgElement) imgElement.src = listeImages[index];
+        }, 3000);
+
+        // --- AUTHENTIFICATION ---
+        let currentUser = JSON.parse(localStorage.getItem('cp_current_user')) || null;
+
+        function verifierSessionNavigation() {
+            const authLink = document.getElementById('navAuthLink');
+            if (currentUser) {
+                authLink.innerText = "Mon Compte (" + currentUser.nom + ")";
+            } else {
+                authLink.innerText = "Se connecter";
+            }
+        }
+
+        function clicConnexion() {
+            if (currentUser) {
+                switchPage('compte');
+            } else {
+                switchPage('connexion');
+            }
+        }
+
+        function inscrireUtilisateur() {
+            const nom = document.getElementById('regNom').value;
+            const email = document.getElementById('regEmail').value;
+            const pass = document.getElementById('regPass').value;
+
+            if(!nom || !email || !pass) {
+                alert('Veuillez remplir tous les champs.');
+                return;
+            }
+
+            localStorage.setItem('cp_pending_user', JSON.stringify({nom, email, pass, verifie: false}));
+            alert('Inscription réussie ! Entrez le code 123456 pour vérifier votre e-mail.');
+            switchPage('verification');
+        }
+
+        function validerCodeVerification() {
+            const code = document.getElementById('verifCodeInput').value;
+            if(code === "123456") {
+                let pending = JSON.parse(localStorage.getItem('cp_pending_user'));
+                if(pending) {
+                    pending.verifie = true;
+                    localStorage.setItem('cp_current_user', JSON.stringify(pending));
+                    currentUser = pending;
+                    verifierSessionNavigation();
+                    alert('Compte vérifié et connecté avec succès !');
+                    switchPage('accueil');
+                }
+            } else {
+                alert('Code incorrect. Utilisez 123456.');
+            }
+        }
+
+        function connecterUtilisateur() {
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPass').value;
+            let pending = JSON.parse(localStorage.getItem('cp_pending_user'));
+
+            if(pending && pending.email === email && pending.pass === pass) {
+                currentUser = pending;
+                localStorage.setItem('cp_current_user', JSON.stringify(currentUser));
+                verifierSessionNavigation();
+                alert('Connexion réussie !');
+                switchPage('accueil');
+            } else {
+                alert('Identifiants incorrects ou compte non inscrit.');
+            }
+        }
+
+        function deconnecterUtilisateur() {
+            currentUser = null;
+            localStorage.removeItem('cp_current_user');
+            verifierSessionNavigation();
+            switchPage('accueil');
+            alert('Déconnexion réussie.');
+        }
+
+        function chargerEspaceCompte() {
+            if(!currentUser) {
+                switchPage('connexion');
+                return;
+            }
+            document.getElementById('userInfo').innerHTML = `
+                <p><strong>Nom :</strong> ${currentUser.nom}</p>
+                <p><strong>E-mail :</strong> ${currentUser.email}</p>
+                <p><strong>Statut :</strong> <span style="color:#00ca84;">Vérifié (Simulé)</span></p>
+            `;
+
+            let commandes = JSON.parse(localStorage.getItem('cp_orders')) || [];
+            let ordersHtml = "";
+            if(commandes.length === 0) {
+                ordersHtml = '<p style="color:#cbd5e1;">Aucune commande enregistrée pour le moment.</p>';
+            } else {
+                ordersHtml = "<ul style='list-style-type:none;'>";
+                commandes.forEach(cmd => {
+                    ordersHtml += `<li style="background:rgba(255,255,255,0.03); padding:10px; margin-bottom:8px; border-radius:6px;"><strong>Réf : ${cmd.ref}</strong> - ${cmd.totalArticles} article(s) - <span style="color:#00ca84;">Validé</span></li>`;
+                });
+                ordersHtml += "</ul>";
+            }
+            document.getElementById('userOrders').innerHTML = ordersHtml;
+        }
+
+        // --- PANIER & CHECKOUT ---
+        let panier = [];
+
+        function ajouterAuPanier(id) {
+            const produit = offresData.find(o => o.id === id);
+            const articleExistant = panier.find(item => item.id === id);
+            if (articleExistant) {
+                articleExistant.quantite += 1;
+            } else {
+                panier.push({ ...produit, quantite: 1 });
+            }
+            mettreAJourCompteur();
+            alert('Offre ajoutée au panier avec succès !');
+        }
+
+        function modifierQuantite(id, delta) {
+            const article = panier.find(item => item.id === id);
+            if (article) {
+                article.quantite += delta;
+                if (article.quantite <= 0) supprimerArticle(id);
+                else { afficherPanier(); mettreAJourCompteur(); }
+            }
+        }
+
+        function supprimerArticle(id) {
+            panier = panier.filter(item => item.id !== id);
+            afficherPanier();
+            mettreAJourCompteur();
+        }
+
+        function mettreAJourCompteur() {
+            const totalArticles = panier.reduce((sum, item) => sum + item.quantite, 0);
+            document.getElementById('cartCount').innerText = totalArticles;
+        }
+
+        function afficherPanier() {
+            const container = document.getElementById('cartContent');
+            if (panier.length === 0) {
+                container.innerHTML = '<p style="color:#cbd5e1;">Votre panier est vide.</p>';
+                return;
+            }
+
+            let html = `<table class="cart-table"><thead><tr><th>Offre de Stage</th><th>Catégorie</th><th>Quantité</th><th>Action</th></tr></thead><tbody>`;
+            panier.forEach(item => {
+                html += `
+                    <tr>
+                        <td><strong>${item.titre}</strong><br><small style="color:#cbd5e1;">📍 ${item.lieu}</small></td>
+                        <td>${item.cat}</td>
+                        <td>
+                            <button class="qty-btn" onclick="modifierQuantite(${item.id}, -1)">-</button>
+                            <span style="margin: 0 10px; font-weight: bold;">${item.quantite}</span>
+                            <button class="qty-btn" onclick="modifierQuantite(${item.id}, 1)">+</button>
+                        </td>
+                        <td><button class="del-btn" onclick="supprimerArticle(${item.id})">Supprimer</button></td>
+                    </tr>
+                `;
+            });
+            html += `</tbody></table>
+                <div class="cart-summary">
+                    <h3 style="margin-bottom: 15px;">Total des candidatures : ${panier.reduce((sum, item) => sum + item.quantite, 0)}</h3>
+                    <button class="btn-search" onclick="passerAuCheckout()">Passer à la commande</button>
+                </div>`;
+            container.innerHTML = html;
+        }
+
+        function passerAuCheckout() {
+            if(!currentUser) {
+                alert('Veuillez vous connecter pour valider vos candidatures.');
+                switchPage('connexion');
+                return;
+            }
+            if(panier.length === 0) {
+                alert('Votre panier est vide.');
+                return;
+            }
+            document.getElementById('chkNom').value = currentUser.nom;
+            document.getElementById('chkEmail').value = currentUser.email;
+            switchPage('checkout');
+        }
+
+        function validerCommandeSimulee() {
+            const nom = document.getElementById('chkNom').value;
+            const email = document.getElementById('chkEmail').value;
+            if(!nom || !email) {
+                alert('Veuillez remplir les informations de livraison.');
+                return;
+            }
+
+            const nouvelleCommande = {
+                ref: 'TN-' + Math.floor(100000 + Math.random() * 900000),
+                totalArticles: panier.reduce((sum, item) => sum + item.quantite, 0),
+                produits: [...panier]
+            };
+
+            let commandes = JSON.parse(localStorage.getItem('cp_orders')) || [];
+            commandes.push(nouvelleCommande);
+            localStorage.setItem('cp_orders', JSON.stringify(commandes));
+
+            panier = [];
+            mettreAJourCompteur();
+            alert('Félicitations ! Commande validée avec succès sur stage.tn.');
+            switchPage('compte');
+        }
+
+        // Lancement initial
+        verifierSessionNavigation();
+        afficherOffres('Tous');
+    </script>
+</body>
+</html>
