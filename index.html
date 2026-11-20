@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>stage.tn — Offres de Stage PFE & Alternance en Tunisie</title>
-  <meta name="description" content="Trouvez votre stage PFE ou alternance en Tunisie (Tunis, Sousse, Sfax) sur stage.tn. Filtrez les offres par formation et améliorez votre CV." />
+  <meta name="description" content="Trouvez votre stage PFE ou alternance en Tunisie (Tunis, Sousse, Sfax) sur stage.tn. Filtrez les offres par formation et améliorez votre CV avec notre Agent IA." />
   <meta name="keywords" content="stage Tunisie, stage PFE, stage été Tunisie, offres de stage Tunis, Sousse, Sfax, stage informatique, stage gestion, stage.tn, CV stage" />
   <meta name="author" content="stage.tn" />
   <meta name="publisher" content="stage.tn" />
@@ -15,33 +15,66 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background-color: #072d38; color: #f4f8f8; font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
     h1, h2, h3 { font-family: 'Playfair Display', serif; }
-    header { background-color: #05222b; padding: 16px 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+
+    header { background-color: #05222b; padding: 16px 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.08); position: sticky; top: 0; z-index: 100; }
     .logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: #fff; text-decoration: none; cursor: pointer; }
     .logo span { color: #0fd682; font-style: italic; }
-    nav { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; }
+    nav { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
     .nav-link { background: none; border: none; color: #e6f1f2; font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; }
     .nav-link:hover, .nav-link.active { color: #0fd682; font-weight: 700; }
+
+    .btn-compte { background: transparent; border: 1px solid #0fd682; color: #fff; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .btn-compte:hover { background: rgba(15, 214, 130, 0.14); }
+
     .container { max-width: 1180px; width: 100%; margin: 0 auto; padding: 32px 24px; flex: 1; }
     .page-view { display: none; }
     .page-view.active { display: block; }
+
     .hero { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; align-items: center; margin-bottom: 40px; }
     .hero h1 { font-size: 40px; line-height: 1.15; margin-bottom: 14px; }
     .hero h1 span { color: #0fd682; font-style: italic; }
     .hero p { color: #c7dde2; margin-bottom: 18px; }
     .slideshow { border-radius: 16px; overflow: hidden; height: 320px; border: 2px solid rgba(255,255,255,0.12); }
     .slideshow img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
     .section-title { font-size: 28px; margin-bottom: 8px; }
     .section-desc { color: #b9d4da; margin-bottom: 20px; }
     .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-bottom: 32px; }
-    .card { background: #0b3a47; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 20px; }
+    .card { background: #0b3a47; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; }
     .card h3 { font-size: 20px; margin-bottom: 8px; }
     .card p { font-size: 14px; color: #c7dde2; margin-bottom: 14px; }
-    .btn-green { background: #0fd682; color: #05222b; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 700; cursor: pointer; }
-    .btn-outline { background: transparent; border: 1px solid #0fd682; color: #0fd682; padding: 8px 14px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+
+    .btn-green { background: #0fd682; color: #05222b; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px; }
+    .btn-outline { background: transparent; border: 1px solid #0fd682; color: #0fd682; padding: 8px 14px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; }
+
     .pills { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
     .pill { background: #0b3a47; color: #fff; border: 1px solid rgba(255,255,255,0.15); padding: 7px 14px; border-radius: 999px; cursor: pointer; font-size: 13px; }
     .pill.active { background: #0fd682; color: #05222b; font-weight: 700; }
-    textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: #041b22; color: #fff; margin-top: 8px; }
+
+    textarea, input, select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: #041b22; color: #fff; margin-top: 6px; font-family: inherit; }
+
+    /* Modale Compte */
+    .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.72); display: none; align-items: center; justify-content: center; padding: 16px; z-index: 1000; }
+    .backdrop.open { display: flex; }
+    .modal { background: #08323e; border: 1px solid rgba(255,255,255,0.18); border-radius: 16px; max-width: 480px; width: 100%; padding: 24px; }
+    .modal h2 { color: #0fd682; margin-bottom: 10px; }
+    .field { margin-top: 12px; }
+    .field label { display: block; font-size: 13px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+
+    /* Agent IA */
+    .ai-fab { position: fixed; bottom: 20px; right: 20px; background: #0fd682; color: #05222b; font-weight: 700; border: none; border-radius: 999px; padding: 13px 19px; cursor: pointer; box-shadow: 0 8px 22px rgba(0,0,0,0.4); z-index: 950; }
+    .ai-box { position: fixed; bottom: 76px; right: 20px; width: 340px; max-width: calc(100vw - 32px); background: #08323e; border: 1px solid rgba(255,255,255,0.2); border-radius: 14px; display: none; flex-direction: column; overflow: hidden; z-index: 950; }
+    .ai-box.open { display: flex; }
+    .ai-head { background: #041b22; padding: 12px 15px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+    .ai-msgs { padding: 12px; height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
+    .msg { padding: 8px 11px; border-radius: 10px; max-width: 88%; }
+    .msg.bot { background: #104654; align-self: flex-start; }
+    .msg.user { background: #0fd682; color: #05222b; align-self: flex-end; font-weight: 600; }
+    .ai-form { display: flex; border-top: 1px solid rgba(255,255,255,0.12); }
+    .ai-form input { flex: 1; padding: 10px; border: none; background: #041b22; color: #fff; outline: none; margin-top: 0; border-radius: 0; }
+    .ai-form button { padding: 0 14px; border: none; background: #0fd682; color: #05222b; font-weight: 700; cursor: pointer; }
+
     footer { background: #041b22; text-align: center; padding: 20px; font-size: 14px; color: #9ec0c7; }
     footer a { color: #0fd682; margin: 0 6px; }
   </style>
@@ -54,6 +87,7 @@
       <button class="nav-link" id="nav-catalogue" onclick="changerPage('catalogue')">Offres & Catégories</button>
       <button class="nav-link" id="nav-cv" onclick="changerPage('cv')">Améliorer mon CV</button>
       <button class="nav-link" id="nav-conseils" onclick="changerPage('conseils')">Nos conseils</button>
+      <button class="btn-compte" id="btn-compte" onclick="ouvrirAuth('register')">Créer un compte / Connexion</button>
     </nav>
   </header>
 
@@ -111,7 +145,7 @@
       <div class="grid-3">
         <div class="card"><h3>Préparer ton CV</h3><p>Mets en avant tes projets académiques, compétences techniques et langues.</p></div>
         <div class="card"><h3>Personnaliser ta candidature</h3><p>Adapte ton message à chaque entreprise et poste visé.</p></div>
-        <div class="card"><h3>Réussir l'entretien</h3><p>Prépare une présentation claire de ton parcours et de tes objectifs.</p></div>
+        <div class="card"><h3>Demander à l'Agent IA</h3><p>Clique sur le bouton Agent IA en bas à droite pour préparer ton entretien.</p></div>
       </div>
     </div>
   </main>
@@ -122,6 +156,27 @@
     <a href="https://github.com/SamarHafsia/stage-tn">GitHub</a>
   </footer>
 
+  <!-- Modale Création de compte / Connexion -->
+  <div class="backdrop" id="backdrop" onclick="if(event.target===this) fermerModal()">
+    <div class="modal" id="modal-box"></div>
+  </div>
+
+  <!-- Agent IA -->
+  <button class="ai-fab" onclick="toggleAI()">✨ Agent IA</button>
+  <div class="ai-box" id="ai-box">
+    <div class="ai-head">
+      <span>Agent IA — stage.tn</span>
+      <button onclick="toggleAI()" style="background:none;border:none;color:#fff;cursor:pointer;font-size:16px;">✕</button>
+    </div>
+    <div class="ai-msgs" id="ai-msgs">
+      <div class="msg bot">Bonjour ! Pose-moi tes questions sur les stages, ton CV ou ton entretien.</div>
+    </div>
+    <form class="ai-form" onsubmit="envoyerAI(event)">
+      <input id="ai-in" type="text" placeholder="Écris ta question..." required />
+      <button type="submit">OK</button>
+    </form>
+  </div>
+
   <script>
     const offres = [
       { titre: "Stage PFE Développeur Web", cat: "Licence", lieu: "Tunis" },
@@ -130,6 +185,63 @@
       { titre: "Stage Analyste Sécurité Web", cat: "Cybersécurité & Dev", lieu: "Tunis" }
     ];
     let catCourante = "Tous";
+    let user = JSON.parse(localStorage.getItem("stagetn_user_account") || "null");
+
+    function majCompte() {
+      const btn = document.getElementById("btn-compte");
+      if (user) {
+        btn.textContent = "Mon Compte (" + user.nom + ")";
+        btn.onclick = ouvrirMonCompte;
+      } else {
+        btn.textContent = "Créer un compte / Connexion";
+        btn.onclick = () => ouvrirAuth("register");
+      }
+    }
+
+    function ouvrirAuth(mode) {
+      const reg = mode === "register";
+      document.getElementById("modal-box").innerHTML = `
+        <h2>${reg ? "Créer un compte sur stage.tn" : "Connexion"}</h2>
+        <form onsubmit="sauverCompte(event, '${mode}')">
+          ${reg ? `<div class="field"><label>Nom & Prénom</label><input id="u-nom" type="text" required /></div>
+          <div class="field"><label>Formation</label><select id="u-cat"><option>Licence</option><option>Ingénieur</option><option>Master</option><option>BTS / Technicien</option></select></div>` : ""}
+          <div class="field"><label>Email</label><input id="u-mail" type="email" required /></div>
+          <div class="field"><label>Mot de passe</label><input id="u-pass" type="password" required /></div>
+          <div class="actions">
+            <button type="submit" class="btn-green">${reg ? "Créer mon compte" : "Se connecter"}</button>
+            <button type="button" class="btn-outline" onclick="ouvrirAuth('${reg ? "login" : "register"}')">${reg ? "Déjà un compte ?" : "Créer un compte"}</button>
+            <button type="button" class="btn-outline" onclick="fermerModal()">Fermer</button>
+          </div>
+        </form>
+      `;
+      document.getElementById("backdrop").classList.add("open");
+    }
+
+    function sauverCompte(e, mode) {
+      e.preventDefault();
+      const mail = document.getElementById("u-mail").value.trim();
+      const nom = mode === "register" ? document.getElementById("u-nom").value.trim() : mail.split("@")[0];
+      user = { nom, mail };
+      localStorage.setItem("stagetn_user_account", JSON.stringify(user));
+      majCompte();
+      fermerModal();
+    }
+
+    function ouvrirMonCompte() {
+      document.getElementById("modal-box").innerHTML = `
+        <h2>Mon Compte (${user.nom})</h2>
+        <p style="margin-top:8px;">Email : ${user.mail}</p>
+        <div class="actions">
+          <button class="btn-outline" onclick="user=null; localStorage.removeItem('stagetn_user_account'); majCompte(); fermerModal();">Déconnexion</button>
+          <button class="btn-green" onclick="fermerModal()">Fermer</button>
+        </div>
+      `;
+      document.getElementById("backdrop").classList.add("open");
+    }
+
+    function fermerModal() {
+      document.getElementById("backdrop").classList.remove("open");
+    }
 
     function changerPage(page) {
       document.querySelectorAll(".page-view").forEach(el => el.classList.remove("active"));
@@ -162,6 +274,28 @@
       out.textContent = "CV analysé : pense à mettre en valeur tes projets, tes outils (Excel, HTML/CSS, SQL...) et ton niveau de langues.";
     }
 
+    function toggleAI() {
+      document.getElementById("ai-box").classList.toggle("open");
+    }
+
+    function envoyerAI(e) {
+      e.preventDefault();
+      const inp = document.getElementById("ai-in");
+      const txt = inp.value.trim();
+      if (!txt) return;
+      const box = document.getElementById("ai-msgs");
+      box.innerHTML += `<div class="msg user">${txt}</div>`;
+      inp.value = "";
+      const q = txt.toLowerCase();
+      let rep = "Je peux t'aider à choisir une offre, améliorer ton CV ou préparer ton entretien.";
+      if (q.includes("cv")) rep = "Va dans l'onglet « Améliorer mon CV » en haut et mets en avant tes projets et compétences.";
+      else if (q.includes("entretien")) rep = "Prépare une présentation claire de 2 minutes sur ton parcours et pose 2 questions sur les missions.";
+      else if (q.includes("compte")) rep = "Clique sur « Créer un compte / Connexion » en haut à droite pour enregistrer ton profil.";
+      box.innerHTML += `<div class="msg bot">${rep}</div>`;
+      box.scrollTop = box.scrollHeight;
+    }
+
+    majCompte();
     afficherOffres();
   </script>
 </body>
