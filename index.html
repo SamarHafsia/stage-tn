@@ -53,7 +53,6 @@
 
     textarea, input, select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: #041b22; color: #fff; margin-top: 6px; font-family: inherit; }
 
-    /* Modale Compte */
     .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.72); display: none; align-items: center; justify-content: center; padding: 16px; z-index: 1000; }
     .backdrop.open { display: flex; }
     .modal { background: #08323e; border: 1px solid rgba(255,255,255,0.18); border-radius: 16px; max-width: 480px; width: 100%; padding: 24px; }
@@ -62,7 +61,6 @@
     .field label { display: block; font-size: 13px; }
     .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
 
-    /* Agent IA */
     .ai-fab { position: fixed; bottom: 20px; right: 20px; background: #0fd682; color: #05222b; font-weight: 700; border: none; border-radius: 999px; padding: 13px 19px; cursor: pointer; box-shadow: 0 8px 22px rgba(0,0,0,0.4); z-index: 950; }
     .ai-box { position: fixed; bottom: 76px; right: 20px; width: 340px; max-width: calc(100vw - 32px); background: #08323e; border: 1px solid rgba(255,255,255,0.2); border-radius: 14px; display: none; flex-direction: column; overflow: hidden; z-index: 950; }
     .ai-box.open { display: flex; }
@@ -156,12 +154,10 @@
     <a href="https://github.com/SamarHafsia/stage-tn">GitHub</a>
   </footer>
 
-  <!-- Modale Création de compte / Connexion -->
   <div class="backdrop" id="backdrop" onclick="if(event.target===this) fermerModal()">
     <div class="modal" id="modal-box"></div>
   </div>
 
-  <!-- Agent IA -->
   <button class="ai-fab" onclick="toggleAI()">✨ Agent IA</button>
   <div class="ai-box" id="ai-box">
     <div class="ai-head">
