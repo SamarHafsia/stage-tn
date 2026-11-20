@@ -3,341 +3,610 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>stage.tn — Offres de Stage & Assistant IA</title>
+  <title>stage.tn - Le matching intelligent pour vos stages en Tunisie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-    body { background: #07262c; color: #f4f8f8; line-height: 1.5; }
-    header {
-      background: #051c20;
-      padding: 16px 24px;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background-color: #072d38;
+      color: #f4f8f8;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+    }
+    h1, h2, h3, .hero-tag { font-family: 'Playfair Display', serif; }
+
+    /* Barre d'annonce supérieure */
+    .promo-banner {
+      background-color: #5b4338;
+      color: #fff;
+      padding: 10px 24px;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    .logo { font-size: 24px; font-weight: bold; color: #fff; text-decoration: none; }
-    .logo span { color: #16c784; }
-    nav { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
-    nav a, .btn-offres {
-      color: #e6f1f2;
-      text-decoration: none;
       font-size: 14px;
-      cursor: pointer;
-      border: none;
-      background: transparent;
     }
-    .btn-offres {
-      background: #16c784;
-      color: #051c20;
-      font-weight: bold;
+    .promo-btn {
+      background-color: #b87e6c;
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* En-tête */
+    header {
+      background-color: #05222b;
+      padding: 16px 28px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: #fff; text-decoration: none; }
+    .logo span { color: #0fd682; font-style: italic; }
+    nav { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; }
+    nav a { color: #e6f1f2; text-decoration: none; font-size: 14px; font-weight: 500; }
+    nav a:hover { color: #0fd682; }
+
+    .btn-offres-nav {
+      background: rgba(15, 214, 130, 0.14);
+      border: 1px solid #0fd682;
+      color: #fff;
       padding: 8px 14px;
       border-radius: 8px;
-    }
-    .container { max-width: 1100px; margin: 28px auto; padding: 0 20px; }
-    .hero {
-      background: #0b353e;
-      padding: 28px;
-      border-radius: 14px;
-      margin-bottom: 24px;
-    }
-    .hero h1 { font-size: 30px; margin-bottom: 10px; }
-    .hero h1 span { color: #16c784; font-style: italic; }
-    .search-bar { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
-    .search-bar input, .search-bar select {
-      padding: 11px 14px;
-      border-radius: 8px;
-      border: none;
+      font-weight: 600;
       font-size: 14px;
-      color: #051c20;
+      cursor: pointer;
     }
-    .search-bar input { flex: 1; min-width: 220px; }
-    .offers-grid {
+    .badge {
+      background: #0fd682;
+      color: #05222b;
+      padding: 1px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+      margin-left: 4px;
+    }
+    .btn-compte {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.28);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .container { max-width: 1180px; margin: 0 auto; padding: 32px 24px; }
+
+    /* Hero + Diaporama */
+    .hero {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+      align-items: center;
+      margin-bottom: 48px;
+    }
+    .hero-subtitle { font-size: 12px; letter-spacing: 2px; color: #0fd682; font-weight: 700; margin-bottom: 12px; }
+    .hero h1 { font-size: 42px; line-height: 1.15; margin-bottom: 16px; }
+    .hero h1 span { color: #0fd682; font-style: italic; }
+    .hero p { color: #c7dde2; margin-bottom: 22px; }
+
+    .search-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .search-box div { flex: 1; min-width: 180px; }
+    .search-box label { display: block; font-size: 11px; font-weight: 700; color: #072d38; }
+    .search-box input { width: 100%; border: none; outline: none; font-size: 14px; color: #072d38; }
+
+    .btn-green {
+      background: #0fd682;
+      color: #05222b;
+      border: none;
+      padding: 11px 20px;
+      border-radius: 9px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .slideshow {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      height: 330px;
+      border: 2px solid rgba(255,255,255,0.12);
+    }
+    .slideshow img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .slide-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(5,34,43,0.92));
+      padding: 18px;
+      font-size: 14px;
+    }
+
+    /* Catégories */
+    .section-title { font-size: 30px; margin-bottom: 8px; }
+    .section-desc { color: #b9d4da; margin-bottom: 22px; }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
       gap: 18px;
+      margin-bottom: 48px;
     }
     .card {
-      background: #0b353e;
+      background: #0b3a47;
       border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 14px;
     }
-    .meta { font-size: 13px; color: #9ec5cc; margin-top: 4px; }
-    .card-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-    .btn {
-      padding: 9px 14px;
+    .card h3 { font-size: 21px; margin-bottom: 8px; }
+    .card p { font-size: 14px; color: #c7dde2; margin-bottom: 14px; }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #0fd682;
+      color: #0fd682;
+      padding: 8px 14px;
       border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
+      font-weight: 600;
       font-size: 13px;
+      cursor: pointer;
     }
-    .btn-primary { background: #16c784; color: #051c20; }
-    .btn-secondary { background: #174c57; color: #fff; }
 
-    /* Modal détail offre */
-    .modal-backdrop {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    /* Filtres et Offres */
+    .pills { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+    .pill {
+      background: #0b3a47;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 8px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .pill.active { background: #0fd682; color: #05222b; border-color: #0fd682; }
+
+    .offer-card {
+      background: #0b3a47;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .offer-card img { width: 100%; height: 150px; object-fit: cover; cursor: pointer; }
+    .offer-content { padding: 18px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .tag { color: #0fd682; font-size: 12px; font-weight: 700; margin-bottom: 6px; display: block; }
+    .offer-title { font-size: 19px; margin-bottom: 6px; cursor: pointer; }
+    .offer-title:hover { color: #0fd682; }
+    .meta { font-size: 13px; color: #a7cbd3; margin-bottom: 12px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    footer {
+      background: #041b22;
+      text-align: center;
+      padding: 22px;
+      font-size: 14px;
+      color: #9ec0c7;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* Modales */
+    .backdrop {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.72);
       display: none; align-items: center; justify-content: center; padding: 16px; z-index: 1000;
     }
-    .modal-backdrop.open { display: flex; }
+    .backdrop.open { display: flex; }
     .modal {
-      background: #092f37;
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 14px;
-      max-width: 640px;
-      width: 100%;
-      padding: 24px;
-      max-height: 88vh;
-      overflow-y: auto;
+      background: #08323e; border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 16px; max-width: 620px; width: 100%; padding: 24px; max-height: 88vh; overflow-y: auto;
     }
-    .modal h2 { margin-bottom: 6px; color: #16c784; }
-    .modal p, .modal li { margin-top: 10px; color: #e6f1f2; font-size: 14px; }
+    .modal h2 { color: #0fd682; margin-bottom: 8px; }
+    .modal p, .modal li { font-size: 14px; margin-top: 8px; }
     .modal ul { padding-left: 20px; }
+    .field { margin-top: 12px; }
+    .field label { display: block; font-size: 13px; margin-bottom: 4px; }
+    .field input, .field select {
+      width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2);
+      background: #041b22; color: #fff;
+    }
 
     /* Agent IA */
     .ai-fab {
       position: fixed; bottom: 20px; right: 20px;
-      background: #16c784; color: #051c20; font-weight: bold;
-      border: none; border-radius: 999px; padding: 13px 18px;
-      cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.35); z-index: 999;
+      background: #0fd682; color: #05222b; font-weight: 700;
+      border: none; border-radius: 999px; padding: 13px 19px;
+      cursor: pointer; box-shadow: 0 8px 22px rgba(0,0,0,0.4); z-index: 950;
     }
     .ai-box {
       position: fixed; bottom: 76px; right: 20px; width: 340px; max-width: calc(100vw - 32px);
-      background: #092f37; border: 1px solid rgba(255,255,255,0.18);
-      border-radius: 14px; display: none; flex-direction: column; overflow: hidden; z-index: 999;
+      background: #08323e; border: 1px solid rgba(255,255,255,0.2); border-radius: 14px;
+      display: none; flex-direction: column; overflow: hidden; z-index: 950;
     }
     .ai-box.open { display: flex; }
-    .ai-header { background: #051c20; padding: 12px 14px; font-weight: bold; display: flex; justify-content: space-between; }
-    .ai-messages { padding: 12px; height: 240px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
+    .ai-head { background: #041b22; padding: 12px 15px; font-weight: 700; display: flex; justify-content: space-between; }
+    .ai-msgs { padding: 12px; height: 230px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
     .msg { padding: 8px 11px; border-radius: 10px; max-width: 88%; }
-    .msg.bot { background: #13424c; align-self: flex-start; }
-    .msg.user { background: #16c784; color: #051c20; align-self: flex-end; font-weight: bold; }
-    .ai-form { display: flex; border-top: 1px solid rgba(255,255,255,0.1); }
-    .ai-form input { flex: 1; padding: 10px; border: none; background: #051c20; color: #fff; }
-    .ai-form button { padding: 0 14px; border: none; background: #16c784; color: #051c20; font-weight: bold; cursor: pointer; }
+    .msg.bot { background: #104654; align-self: flex-start; }
+    .msg.user { background: #0fd682; color: #05222b; align-self: flex-end; font-weight: 600; }
+    .ai-form { display: flex; border-top: 1px solid rgba(255,255,255,0.12); }
+    .ai-form input { flex: 1; padding: 10px; border: none; background: #041b22; color: #fff; outline: none; }
+    .ai-form button { padding: 0 14px; border: none; background: #0fd682; color: #05222b; font-weight: 700; cursor: pointer; }
   </style>
 </head>
 <body>
+
+  <div class="promo-banner">
+    <span>🌱 <strong>Offre Spéciale :</strong> Profitez de vos 3 premiers jours GRATUITS ! À partir du 4ème jour, l'abonnement complet est à seulement <strong>2 TND / mois</strong>.</span>
+    <button class="promo-btn" onclick="ouvrirAuth('register')">Obtenir 3 jours gratuits</button>
+  </div>
+
   <header>
-    <a class="logo" href="#">stage<span>.tn</span></a>
+    <a class="logo" href="#accueil">stage<span>.tn</span></a>
     <nav>
-      <a href="#offres">Offres disponibles</a>
-      <button class="btn-offres" onclick="ouvrirMesOffres()">Offres (<span id="compteur-offres">0</span>)</button>
+      <a href="#accueil">Accueil</a>
+      <a href="#catalogue">Offres & Catégories</a>
+      <a href="#conseils">Nos conseils pour ton stage</a>
+      <button class="btn-offres-nav" onclick="ouvrirMesOffres()">📋 Offres <span class="badge" id="count-offres">0</span></button>
+      <button class="btn-compte" id="btn-compte" onclick="ouvrirAuth('register')">Créer un compte / Connexion</button>
     </nav>
   </header>
 
-  <main class="container">
+  <main class="container" id="accueil">
     <section class="hero">
-      <h1>Trouve ton stage en Tunisie & <span>décroche-le.</span></h1>
-      <p class="meta">Clique sur une offre pour voir sa description complète, ou ajoute-la dans tes <strong>Offres</strong>.</p>
-      <div class="search-bar">
-        <input id="recherche" type="text" placeholder="Rechercher un poste, une ville, une compétence..." oninput="afficherOffres()" />
-        <select id="filtre-categorie" onchange="afficherOffres()">
-          <option value="Toutes">Toutes les catégories</option>
-          <option value="Développement & Tech">Développement & Tech</option>
-          <option value="Marketing & Digital">Marketing & Digital</option>
-          <option value="Gestion & Finance">Gestion & Finance</option>
-        </select>
+      <div>
+        <div class="hero-subtitle">STAGES ET ALTERNANCE EN TUNISIE & TECH</div>
+        <h1>Trouve ton stage ou ton alternance. On t'aide à <span>décrocher.</span></h1>
+        <p>Des offres triées par métier et par spécialité, et un espace intelligent pour t'aider à postuler.</p>
+        <div class="search-box">
+          <div>
+            <label>Quoi ?</label>
+            <input id="q" type="text" placeholder="Métier, diplôme, ville..." oninput="afficherOffres()" />
+          </div>
+          <button class="btn-green" onclick="document.getElementById('catalogue').scrollIntoView({behavior:'smooth'})">Rechercher</button>
+        </div>
+      </div>
+      <div class="slideshow">
+        <img id="slide-img" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80" alt="Diaporama stages en Tunisie" />
+        <div class="slide-caption" id="slide-text">Des centaines d'opportunités de stages PFE et d'été partout en Tunisie.</div>
       </div>
     </section>
 
-    <section id="offres" class="offers-grid"></section>
+    <section>
+      <h2 class="section-title">Explore par Catégorie de Formation</h2>
+      <p class="section-desc">Sélectionne ton niveau d'études :</p>
+      <div class="grid-3">
+        <div class="card"><h3>Licence</h3><p>Stages de fin d'année et PFE pour étudiants en Licence.</p><button class="btn-outline" onclick="filtrer('Licence')">Voir les offres</button></div>
+        <div class="card"><h3>Ingénieur</h3><p>Stages techniques et PFE pour cycles d'ingénieurs.</p><button class="btn-outline" onclick="filtrer('Ingénieur')">Voir les offres</button></div>
+        <div class="card"><h3>Master</h3><p>Opportunités de stages professionnels et de recherche.</p><button class="btn-outline" onclick="filtrer('Master')">Voir les offres</button></div>
+        <div class="card"><h3>Doctorat / Recherche</h3><p>Thèses en entreprise et stages scientifiques avancés.</p><button class="btn-outline" onclick="filtrer('Doctorat')">Voir les offres</button></div>
+        <div class="card"><h3>Technicien / BTS</h3><p>Stages ouvriers et de perfectionnement technique.</p><button class="btn-outline" onclick="filtrer('BTS / Technicien')">Voir les offres</button></div>
+        <div class="card"><h3>Cybersécurité & Dev</h3><p>Développement web, mobile et sécurité informatique.</p><button class="btn-outline" onclick="filtrer('Cybersécurité & Dev')">Voir les offres</button></div>
+      </div>
+    </section>
+
+    <section id="catalogue">
+      <h2 class="section-title">Catalogue Complet des Offres de Stages</h2>
+      <p class="section-desc">Sélectionne une catégorie ci-dessous pour filtrer instantanément, ou clique sur une offre pour lire sa description complète :</p>
+      <div class="pills" id="pills">
+        <button class="pill active" onclick="filtrer('Tous')">Tous</button>
+        <button class="pill" onclick="filtrer('Licence')">Licence</button>
+        <button class="pill" onclick="filtrer('Ingénieur')">Ingénieur</button>
+        <button class="pill" onclick="filtrer('Master')">Master</button>
+        <button class="pill" onclick="filtrer('Doctorat')">Doctorat</button>
+        <button class="pill" onclick="filtrer('BTS / Technicien')">BTS / Technicien</button>
+        <button class="pill" onclick="filtrer('Cybersécurité & Dev')">Cybersécurité & Dev</button>
+      </div>
+      <div class="grid-3" id="liste-offres"></div>
+    </section>
+
+    <section id="conseils">
+      <h2 class="section-title">Nos conseils pour ton stage</h2>
+      <div class="grid-3">
+        <div class="card"><h3>Préparer ton CV</h3><p>Mets en avant tes compétences techniques, tes projets universitaires et tes stages précédents.</p></div>
+        <div class="card"><h3>Personnaliser ta candidature</h3><p>Adapte ton message de motivation à chaque entreprise et poste visé.</p></div>
+        <div class="card"><h3>Demander à l'Agent IA</h3><p>Utilise le bouton <strong>✨ Agent IA</strong> en bas à droite pour préparer tes entretiens.</p></div>
+      </div>
+    </section>
   </main>
 
-  <!-- Détails d'une offre -->
-  <div id="modal-backdrop" class="modal-backdrop" onclick="fermerModal(event)">
-    <div class="modal" id="modal-contenu"></div>
+  <footer>© 2026 stage.tn. Tous droits réservés.</footer>
+
+  <div class="backdrop" id="backdrop" onclick="if(event.target===this) fermerModal()">
+    <div class="modal" id="modal-box"></div>
   </div>
 
-  <!-- Agent IA -->
-  <button class="ai-fab" onclick="toggleAI()">Agent IA</button>
-  <div id="ai-box" class="ai-box">
-    <div class="ai-header">
+  <button class="ai-fab" onclick="toggleAI()">✨ Agent IA</button>
+  <div class="ai-box" id="ai-box">
+    <div class="ai-head">
       <span>Agent IA — stage.tn</span>
       <button onclick="toggleAI()" style="background:none;border:none;color:#fff;cursor:pointer;">✕</button>
     </div>
-    <div id="ai-messages" class="ai-messages">
-      <div class="msg bot">Bonjour ! Demande-moi un conseil pour choisir un stage, préparer ton CV ou filtrer les offres.</div>
+    <div class="ai-msgs" id="ai-msgs">
+      <div class="msg bot">Bonjour ! Pose-moi tes questions sur les offres de stage, ton CV ou ton entretien.</div>
     </div>
-    <form class="ai-form" onsubmit="envoyerMessageAI(event)">
-      <input id="ai-input" type="text" placeholder="Écris ta question..." required />
+    <form class="ai-form" onsubmit="envoyerAI(event)">
+      <input id="ai-in" type="text" placeholder="Écris ta question..." required />
       <button type="submit">OK</button>
     </form>
   </div>
 
   <script>
+    const slides = [
+      { img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80", txt: "Des centaines d'opportunités de stages PFE et d'été partout en Tunisie." },
+      { img: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=900&q=80", txt: "Rejoins des équipes innovantes dans le développement, la gestion et le marketing." },
+      { img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80", txt: "Consulte chaque offre en détail et prépare ta candidature avec l'Agent IA." }
+    ];
+    let slideIdx = 0;
+    setInterval(() => {
+      slideIdx = (slideIdx + 1) % slides.length;
+      document.getElementById("slide-img").src = slides[slideIdx].img;
+      document.getElementById("slide-text").textContent = slides[slideIdx].txt;
+    }, 4500);
+
     const offres = [
       {
         id: 1,
-        titre: "Stagiaire Développement Web",
-        entreprise: "Tech Innov",
-        ville: "Tunis",
-        duree: "3 mois • Stage PFE",
-        categorie: "Développement & Tech",
-        resume: "Participez à la conception d'interfaces web et à l'intégration de fonctionnalités clients.",
-        description: "Vous rejoindrez l'équipe produit pour développer des pages web responsives, corriger des anomalies d'affichage et collaborer avec les développeurs sur des projets concrets.",
-        missions: ["Développer et maintenir des composants web", "Tester l'affichage sur mobile et ordinateur", "Participer aux revues de code et réunions d'équipe"],
-        competences: ["HTML / CSS / JavaScript", "Bases de Git", "Esprit d'analyse et autonomie"]
+        titre: "Stage Licence - Développeur Web Junior",
+        cat: "Licence",
+        lieu: "Tunis",
+        duree: "Stage PFE",
+        entreprise: "Tech Innov Tunisia",
+        img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80",
+        description: "Vous intégrerez l'équipe web pour concevoir des interfaces responsives, développer des fonctionnalités front-end/back-end et tester la qualité des applications.",
+        missions: ["Développer des pages web en HTML, CSS et JavaScript", "Participer à l'intégration d'API", "Corriger les anomalies d'affichage"],
+        competences: ["HTML / CSS / JavaScript", "Notions de Git", "Esprit d'équipe"]
       },
       {
         id: 2,
-        titre: "Stage Marketing Digital & Social Media",
-        entreprise: "Dar Digital",
-        ville: "Sousse",
-        duree: "4 mois • Stage d'été",
-        categorie: "Marketing & Digital",
-        resume: "Créez des contenus et suivez les performances des campagnes sur les réseaux sociaux.",
-        description: "Vous accompagnerez l'équipe marketing dans la planification éditoriale, la création de visuels/textes adaptés à chaque réseau et l'analyse des statistiques d'engagement.",
-        missions: ["Préparer le calendrier éditorial", "Suivre les statistiques des publications", "Proposer des idées de campagnes créatives"],
-        competences: ["Réseaux sociaux", "Sens de la communication", "Rigueur et organisation"]
+        titre: "Stage Licence - Assistant Comptable & Gestion",
+        cat: "Licence",
+        lieu: "Sousse",
+        duree: "3 Mois",
+        entreprise: "Cabinet El Amal",
+        img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80",
+        description: "Participation à la saisie comptable quotidienne, au suivi des factures clients/fournisseurs et à la préparation des tableaux de bord financiers sous Excel.",
+        missions: ["Classer et saisir les pièces comptables", "Mettre à jour les tableaux de suivi Excel", "Assister aux clôtures mensuelles"],
+        competences: ["Excel", "Bases en comptabilité", "Rigueur"]
       },
       {
         id: 3,
-        titre: "Stage Analyse de Données & Reporting",
-        entreprise: "Sfax Data Solutions",
-        ville: "Sfax",
-        duree: "3 mois • Stage PFE",
-        categorie: "Gestion & Finance",
-        resume: "Nettoyez des données, créez des tableaux de bord et rédigez des synthèses d'aide à la décision.",
-        description: "Vous travaillerez sur l'organisation de données métiers, la création de rapports clairs et l'automatisation de suivis réguliers pour les équipes opérationnelles.",
-        missions: ["Structurer et vérifier des tableaux de données", "Construire des indicateurs de suivi", "Présenter des synthèses claires"],
-        competences: ["Excel / Tableurs", "Logique et rigueur", "Capacité de synthèse"]
+        titre: "Stage Licence - Marketing Digital & Social Media",
+        cat: "Licence",
+        lieu: "Sfax",
+        duree: "2 Mois",
+        entreprise: "Dar Digital",
+        img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+        description: "Création de contenus digitaux, animation des réseaux sociaux et suivi des statistiques de performance des campagnes.",
+        missions: ["Rédiger des publications pour LinkedIn et Instagram", "Planifier le calendrier éditorial", "Analyser l'engagement"],
+        competences: ["Réseaux sociaux", "Créativité", "Organisation"]
+      },
+      {
+        id: 4,
+        titre: "Stage Licence - Support Technique & Helpdesk",
+        cat: "Licence",
+        lieu: "Bizerte",
+        duree: "3 Mois",
+        entreprise: "InfoService TN",
+        img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80",
+        description: "Assistance aux utilisateurs, maintenance logicielle et matérielle et gestion du parc informatique de l'entreprise.",
+        missions: ["Diagnostiquer et résoudre les incidents", "Configurer les postes de travail", "Rédiger des guides utilisateurs"],
+        competences: ["Windows / Linux", "Sens du service", "Réactivité"]
+      },
+      {
+        id: 5,
+        titre: "Stage Licence - Assistant RH & Recrutement",
+        cat: "Licence",
+        lieu: "Tunis",
+        duree: "3 Mois",
+        entreprise: "Talentia Maghreb",
+        img: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=80",
+        description: "Participation au tri des CV, à la publication des annonces, aux pré-qualifications téléphoniques et au suivi administratif des dossiers.",
+        missions: ["Diffuser les offres d'emploi et de stage", "Planifier les entretiens", "Mettre à jour la base de candidats"],
+        competences: ["Communication", "Maîtrise du Pack Office", "Discrétion"]
+      },
+      {
+        id: 6,
+        titre: "Stage Cybersécurité & Dev - Analyste Junior",
+        cat: "Cybersécurité & Dev",
+        lieu: "Tunis",
+        duree: "Stage PFE • 4 Mois",
+        entreprise: "SecureNet TN",
+        img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80",
+        description: "Audit de sécurité d'applications web, détection de vulnérabilités et mise en place de bonnes pratiques de protection.",
+        missions: ["Tester la sécurité des interfaces web", "Rédiger des rapports d'audit", "Proposer des correctifs"],
+        competences: ["Réseaux & Linux", "Notions OWASP", "Esprit analytique"]
       }
     ];
 
-    let mesOffresIds = JSON.parse(localStorage.getItem("stage_tn_mes_offres") || "[]");
+    let catActive = "Tous";
+    let mesOffres = JSON.parse(localStorage.getItem("stagetn_saved_offers") || "[]");
+    let user = JSON.parse(localStorage.getItem("stagetn_user_account") || "null");
 
-    function sauvegarderOffres() {
-      localStorage.setItem("stage_tn_mes_offres", JSON.stringify(mesOffresIds));
-      document.getElementById("compteur-offres").textContent = mesOffresIds.length;
+    function majInterface() {
+      document.getElementById("count-offres").textContent = mesOffres.length;
+      const btn = document.getElementById("btn-compte");
+      if (user) {
+        btn.textContent = "Mon Compte (" + user.nom + ")";
+        btn.onclick = ouvrirMonCompte;
+      } else {
+        btn.textContent = "Créer un compte / Connexion";
+        btn.onclick = () => ouvrirAuth("register");
+      }
     }
 
     function toggleOffre(id) {
-      if (mesOffresIds.includes(id)) {
-        mesOffresIds = mesOffresIds.filter(x => x !== id);
-      } else {
-        mesOffresIds.push(id);
-      }
-      sauvegarderOffres();
+      if (mesOffres.includes(id)) mesOffres = mesOffres.filter(x => x !== id);
+      else mesOffres.push(id);
+      localStorage.setItem("stagetn_saved_offers", JSON.stringify(mesOffres));
+      majInterface();
       afficherOffres();
     }
 
-    function afficherOffres() {
-      const q = document.getElementById("recherche").value.toLowerCase().trim();
-      const cat = document.getElementById("filtre-categorie").value;
-      const zone = document.getElementById("offres");
+    function filtrer(cat) {
+      catActive = cat;
+      document.querySelectorAll(".pill").forEach(p => p.classList.toggle("active", p.textContent.trim() === cat));
+      afficherOffres();
+      document.getElementById("catalogue").scrollIntoView({ behavior: "smooth" });
+    }
 
-      const filtrées = offres.filter(o => {
-        const matchCat = cat === "Toutes" || o.categorie === cat;
-        const texte = `${o.titre} ${o.entreprise} ${o.ville} ${o.resume} ${o.description}`.toLowerCase();
-        return matchCat && (!q || texte.includes(q));
+    function afficherOffres() {
+      const q = document.getElementById("q").value.toLowerCase().trim();
+      const zone = document.getElementById("liste-offres");
+      const res = offres.filter(o => {
+        const okCat = catActive === "Tous" || o.cat === catActive;
+        const txt = `${o.titre} ${o.cat} ${o.lieu} ${o.entreprise} ${o.description}`.toLowerCase();
+        return okCat && (!q || txt.includes(q));
       });
 
-      zone.innerHTML = filtrées.map(o => {
-        const ajoutee = mesOffresIds.includes(o.id);
+      zone.innerHTML = res.map(o => {
+        const saved = mesOffres.includes(o.id);
         return `
-          <article class="card">
-            <div>
-              <h2 style="cursor:pointer;" onclick="ouvrirDetail(${o.id})">${o.titre}</h2>
-              <div class="meta">${o.entreprise} — ${o.ville} • ${o.duree}</div>
-              <p style="margin-top:10px;font-size:14px;">${o.resume}</p>
-            </div>
-            <div class="card-actions">
-              <button class="btn btn-secondary" onclick="ouvrirDetail(${o.id})">Voir plus de description</button>
-              <button class="btn btn-primary" onclick="toggleOffre(${o.id})">${ajoutee ? "Retirer des offres" : "Ajouter aux offres"}</button>
+          <article class="offer-card">
+            <img src="${o.img}" alt="${o.titre}" onclick="ouvrirOffre(${o.id})" />
+            <div class="offer-content">
+              <div>
+                <span class="tag">📁 ${o.cat}</span>
+                <h3 class="offer-title" onclick="ouvrirOffre(${o.id})">${o.titre}</h3>
+                <div class="meta">🏢 ${o.entreprise} • 📍 ${o.lieu} • ${o.duree}</div>
+              </div>
+              <div class="actions">
+                <button class="btn-outline" onclick="ouvrirOffre(${o.id})">Voir description</button>
+                <button class="btn-green" onclick="toggleOffre(${o.id})">${saved ? "✓ Dans mes offres" : "Ajouter aux offres"}</button>
+              </div>
             </div>
           </article>
         `;
-      }).join("") || "<p>Aucune offre ne correspond à ta recherche.</p>";
+      }).join("") || "<p>Aucune offre trouvée.</p>";
     }
 
-    function ouvrirDetail(id) {
+    function ouvrirOffre(id) {
       const o = offres.find(x => x.id === id);
       if (!o) return;
-      const ajoutee = mesOffresIds.includes(o.id);
-      document.getElementById("modal-contenu").innerHTML = `
+      const saved = mesOffres.includes(o.id);
+      document.getElementById("modal-box").innerHTML = `
+        <img src="${o.img}" alt="${o.titre}" style="width:100%;height:185px;object-fit:cover;border-radius:10px;margin-bottom:14px;" />
         <h2>${o.titre}</h2>
-        <div class="meta">${o.entreprise} — ${o.ville} • ${o.duree} • ${o.categorie}</div>
-        <p><strong>Description complète :</strong> ${o.description}</p>
+        <div class="meta">🏢 ${o.entreprise} • 📍 ${o.lieu} • ⏱️ ${o.duree} • 📁 ${o.cat}</div>
+        <p><strong>Description complète de l'offre :</strong><br/>${o.description}</p>
         <p><strong>Missions principales :</strong></p>
         <ul>${o.missions.map(m => `<li>${m}</li>`).join("")}</ul>
         <p><strong>Compétences recherchées :</strong></p>
         <ul>${o.competences.map(c => `<li>${c}</li>`).join("")}</ul>
-        <div class="card-actions" style="margin-top:20px;">
-          <button class="btn btn-primary" onclick="toggleOffre(${o.id}); ouvrirDetail(${o.id});">${ajoutee ? "Retirer des offres" : "Ajouter aux offres"}</button>
-          <button class="btn btn-secondary" onclick="fermerModalDirect()">Fermer</button>
+        <div class="actions" style="margin-top:18px;">
+          <button class="btn-green" onclick="toggleOffre(${o.id}); ouvrirOffre(${o.id});">${saved ? "Retirer de mes offres" : "Ajouter aux offres"}</button>
+          <button class="btn-outline" onclick="fermerModal()">Fermer</button>
         </div>
       `;
-      document.getElementById("modal-backdrop").classList.add("open");
+      document.getElementById("backdrop").classList.add("open");
     }
 
     function ouvrirMesOffres() {
-      const selection = offres.filter(o => mesOffresIds.includes(o.id));
-      document.getElementById("modal-contenu").innerHTML = `
-        <h2>Mes Offres sélectionnées (${selection.length})</h2>
-        ${selection.length ? selection.map(o => `
+      const liste = offres.filter(o => mesOffres.includes(o.id));
+      document.getElementById("modal-box").innerHTML = `
+        <h2>Mes Offres (${liste.length})</h2>
+        ${liste.length ? liste.map(o => `
           <div style="margin-top:14px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.12);">
-            <strong>${o.titre}</strong> <span class="meta">(${o.entreprise} — ${o.ville})</span>
-            <p style="margin-top:6px;">${o.resume}</p>
-            <div class="card-actions" style="margin-top:8px;">
-              <button class="btn btn-secondary" onclick="ouvrirDetail(${o.id})">Description complète</button>
-              <button class="btn btn-primary" onclick="toggleOffre(${o.id}); ouvrirMesOffres();">Retirer</button>
+            <strong>${o.titre}</strong>
+            <div class="meta">${o.entreprise} • ${o.lieu} • ${o.duree}</div>
+            <div class="actions" style="margin-top:8px;">
+              <button class="btn-outline" onclick="ouvrirOffre(${o.id})">Description</button>
+              <button class="btn-green" onclick="toggleOffre(${o.id}); ouvrirMesOffres();">Retirer</button>
             </div>
           </div>
-        `).join("") : "<p>Aucune offre ajoutée pour l'instant.</p>"}
-        <div style="margin-top:18px;">
-          <button class="btn btn-secondary" onclick="fermerModalDirect()">Fermer</button>
+        `).join("") : "<p>Aucune offre enregistrée pour le moment.</p>"}
+        <div style="margin-top:16px;"><button class="btn-outline" onclick="fermerModal()">Fermer</button></div>
+      `;
+      document.getElementById("backdrop").classList.add("open");
+    }
+
+    function ouvrirAuth(mode) {
+      const reg = mode === "register";
+      document.getElementById("modal-box").innerHTML = `
+        <h2>${reg ? "Créer un compte sur stage.tn" : "Connexion à mon compte"}</h2>
+        <form onsubmit="sauverCompte(event, '${mode}')">
+          ${reg ? `
+            <div class="field"><label>Nom & Prénom</label><input id="u-nom" type="text" placeholder="Ex: samar" required /></div>
+            <div class="field"><label>Formation</label><select id="u-cat"><option>Licence</option><option>Ingénieur</option><option>Master</option><option>BTS / Technicien</option></select></div>
+          ` : ""}
+          <div class="field"><label>Email</label><input id="u-mail" type="email" placeholder="samar@exemple.tn" required /></div>
+          <div class="field"><label>Mot de passe</label><input id="u-pass" type="password" required /></div>
+          <div class="actions" style="margin-top:16px;">
+            <button type="submit" class="btn-green">${reg ? "Créer mon compte" : "Se connecter"}</button>
+            <button type="button" class="btn-outline" onclick="ouvrirAuth('${reg ? "login" : "register"}')">${reg ? "Déjà un compte ? Connexion" : "Créer un compte"}</button>
+            <button type="button" class="btn-outline" onclick="fermerModal()">Fermer</button>
+          </div>
+        </form>
+      `;
+      document.getElementById("backdrop").classList.add("open");
+    }
+
+    function sauverCompte(e, mode) {
+      e.preventDefault();
+      const mail = document.getElementById("u-mail").value.trim();
+      const nom = mode === "register" ? document.getElementById("u-nom").value.trim() : mail.split("@")[0];
+      user = { nom, mail };
+      localStorage.setItem("stagetn_user_account", JSON.stringify(user));
+      majInterface();
+      fermerModal();
+    }
+
+    function ouvrirMonCompte() {
+      document.getElementById("modal-box").innerHTML = `
+        <h2>Mon Compte (${user.nom})</h2>
+        <p><strong>Email :</strong> ${user.mail}</p>
+        <p><strong>Offres sauvegardées :</strong> ${mesOffres.length}</p>
+        <div class="actions" style="margin-top:16px;">
+          <button class="btn-green" onclick="ouvrirMesOffres()">Voir mes offres</button>
+          <button class="btn-outline" onclick="user=null; localStorage.removeItem('stagetn_user_account'); majInterface(); fermerModal();">Déconnexion</button>
+          <button class="btn-outline" onclick="fermerModal()">Fermer</button>
         </div>
       `;
-      document.getElementById("modal-backdrop").classList.add("open");
+      document.getElementById("backdrop").classList.add("open");
     }
 
-    function fermerModal(e) {
-      if (e.target.id === "modal-backdrop") fermerModalDirect();
-    }
-    function fermerModalDirect() {
-      document.getElementById("modal-backdrop").classList.remove("open");
-    }
+    function fermerModal() { document.getElementById("backdrop").classList.remove("open"); }
+    function toggleAI() { document.getElementById("ai-box").classList.toggle("open"); }
 
-    function toggleAI() {
-      document.getElementById("ai-box").classList.toggle("open");
-    }
-
-    function reponseAgentIA(question) {
-      const q = question.toLowerCase();
-      if (q.includes("cv") || q.includes("lettre") || q.includes("postuler")) {
-        return "Pour postuler efficacement : mets en avant tes projets pratiques, tes compétences techniques et ta motivation pour l'entreprise, puis adapte ton message à chaque offre.";
-      }
-      if (q.includes("entretien")) {
-        return "Prépare une présentation claire de 2 minutes sur ton parcours, explique pourquoi tu as choisi ce domaine et pose 2 questions concrètes sur les missions du stage.";
-      }
-      if (q.includes("offre") || q.includes("stage") || q.includes("tunis") || q.includes("sousse") || q.includes("sfax")) {
-        return "Tu peux filtrer les offres par mot-clé ou catégorie en haut de la page, cliquer sur 'Voir plus de description' pour tout lire, et cliquer sur 'Ajouter aux offres' pour garder ta sélection.";
-      }
-      return "Je peux t'aider à choisir une offre, préparer ton CV ou ton entretien de stage. Précise ce que tu recherches !";
-    }
-
-    function envoyerMessageAI(e) {
+    function envoyerAI(e) {
       e.preventDefault();
-      const input = document.getElementById("ai-input");
-      const texte = input.value.trim();
-      if (!texte) return;
-      const box = document.getElementById("ai-messages");
-      box.innerHTML += `<div class="msg user">${texte}</div>`;
-      input.value = "";
-      const rep = reponseAgentIA(texte);
+      const inp = document.getElementById("ai-in");
+      const txt = inp.value.trim();
+      if (!txt) return;
+      const box = document.getElementById("ai-msgs");
+      box.innerHTML += `<div class="msg user">${txt}</div>`;
+      inp.value = "";
+      const q = txt.toLowerCase();
+      let rep = "Je peux t'aider à choisir une offre, préparer ton CV ou ton entretien de stage. Que souhaites-tu ?";
+      if (q.includes("cv") || q.includes("postuler")) rep = "Mets ton niveau d'études, tes projets universitaires et tes compétences clés en avant, puis adapte ton message à l'offre choisie.";
+      else if (q.includes("entretien")) rep = "Prépare une présentation claire de 2 minutes sur ton parcours et pose 2 questions sur les missions du stage.";
+      else if (q.includes("compte")) rep = "Clique sur « Créer un compte / Connexion » en haut à droite pour enregistrer ton profil.";
       box.innerHTML += `<div class="msg bot">${rep}</div>`;
       box.scrollTop = box.scrollHeight;
     }
 
-    sauvegarderOffres();
+    majInterface();
     afficherOffres();
   </script>
 </body>
