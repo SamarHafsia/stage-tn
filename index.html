@@ -12,6 +12,9 @@
       color: #f4f8f8;
       font-family: 'Plus Jakarta Sans', sans-serif;
       line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
     h1, h2, h3, .hero-tag { font-family: 'Playfair Display', serif; }
 
@@ -37,7 +40,7 @@
       cursor: pointer;
     }
 
-    /* En-tête */
+    /* En-tête & Barre de menu */
     header {
       background-color: #05222b;
       padding: 16px 28px;
@@ -51,11 +54,20 @@
       top: 0;
       z-index: 100;
     }
-    .logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: #fff; text-decoration: none; }
+    .logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: #fff; text-decoration: none; cursor: pointer; }
     .logo span { color: #0fd682; font-style: italic; }
     nav { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
-    nav a { color: #e6f1f2; text-decoration: none; font-size: 14px; font-weight: 500; }
-    nav a:hover { color: #0fd682; }
+    .nav-link {
+      background: none;
+      border: none;
+      color: #e6f1f2;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 6px 4px;
+    }
+    .nav-link:hover, .nav-link.active { color: #0fd682; font-weight: 700; }
 
     .btn-offres-nav {
       background: rgba(15, 214, 130, 0.14);
@@ -86,9 +98,12 @@
       cursor: pointer;
     }
 
-    .container { max-width: 1180px; margin: 0 auto; padding: 32px 24px; }
+    /* Gestion des pages séparées */
+    .container { max-width: 1180px; width: 100%; margin: 0 auto; padding: 32px 24px; flex: 1; }
+    .page-view { display: none; }
+    .page-view.active { display: block; }
 
-    /* Hero + Diaporama */
+    /* Hero + Diaporama (Page d'Accueil) */
     .hero {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -130,7 +145,7 @@
       position: relative;
       border-radius: 16px;
       overflow: hidden;
-      height: 330px;
+      height: 340px;
       border: 2px solid rgba(255,255,255,0.12);
     }
     .slideshow img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -149,7 +164,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
       gap: 18px;
-      margin-bottom: 48px;
+      margin-bottom: 32px;
     }
     .card {
       background: #0b3a47;
@@ -175,7 +190,7 @@
       cursor: pointer;
     }
 
-    /* Filtres et Offres */
+    /* Filtres et Offres (Page Offres & Catégories) */
     .pills { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
     .pill {
       background: #0b3a47;
@@ -206,13 +221,12 @@
     .meta { font-size: 13px; color: #a7cbd3; margin-bottom: 12px; }
     .actions { display: flex; flex-wrap: wrap; gap: 8px; }
 
-    /* Section Mon CV & Amélioration IA */
+    /* Page CV & Amélioration IA */
     .cv-section {
       background: #05222b;
       border: 1px solid rgba(15, 214, 130, 0.28);
       border-radius: 18px;
       padding: 28px;
-      margin-bottom: 48px;
     }
     .cv-grid {
       display: grid;
@@ -228,7 +242,7 @@
     }
     .cv-box textarea {
       width: 100%;
-      min-height: 170px;
+      min-height: 180px;
       margin-top: 10px;
       padding: 12px;
       border-radius: 10px;
@@ -255,7 +269,7 @@
       font-size: 13px;
       white-space: pre-line;
       border: 1px solid rgba(255,255,255,0.12);
-      max-height: 280px;
+      max-height: 300px;
       overflow-y: auto;
     }
 
@@ -318,54 +332,71 @@
     <button class="promo-btn" onclick="ouvrirAuth('register')">Obtenir 3 jours gratuits</button>
   </div>
 
+  <!-- Barre de menu -->
   <header>
-    <a class="logo" href="#accueil">stage<span>.tn</span></a>
+    <span class="logo" onclick="changerPage('accueil')">stage<span>.tn</span></span>
     <nav>
-      <a href="#accueil">Accueil</a>
-      <a href="#catalogue">Offres & Catégories</a>
-      <a href="#mon-cv">Améliorer mon CV</a>
-      <a href="#conseils">Nos conseils pour ton stage</a>
+      <button class="nav-link active" id="nav-accueil" onclick="changerPage('accueil')">Accueil</button>
+      <button class="nav-link" id="nav-catalogue" onclick="changerPage('catalogue')">Offres & Catégories</button>
+      <button class="nav-link" id="nav-cv" onclick="changerPage('cv')">Améliorer mon CV</button>
+      <button class="nav-link" id="nav-conseils" onclick="changerPage('conseils')">Nos conseils pour ton stage</button>
       <button class="btn-offres-nav" onclick="ouvrirMesOffres()">📋 Offres <span class="badge" id="count-offres">0</span></button>
       <button class="btn-compte" id="btn-compte" onclick="ouvrirAuth('register')">Créer un compte / Connexion</button>
     </nav>
   </header>
 
-  <main class="container" id="accueil">
-    <section class="hero">
-      <div>
-        <div class="hero-subtitle">STAGES ET ALTERNANCE EN TUNISIE & TECH</div>
-        <h1>Trouve ton stage ou ton alternance. On t'aide à <span>décrocher.</span></h1>
-        <p>Des offres triées par métier et par spécialité, un espace intelligent pour améliorer ton CV et un assistant IA pour t'aider à postuler.</p>
-        <div class="search-box">
-          <div>
-            <label>Quoi ?</label>
-            <input id="q" type="text" placeholder="Métier, diplôme, ville..." oninput="afficherOffres()" />
+  <main class="container">
+
+    <!-- PAGE 1 : ACCUEIL UNIQUEMENT (Images + Catégories) -->
+    <div id="page-accueil" class="page-view active">
+      <section class="hero">
+        <div>
+          <div class="hero-subtitle">STAGES ET ALTERNANCE EN TUNISIE & TECH</div>
+          <h1>Trouve ton stage ou ton alternance. On t'aide à <span>décrocher.</span></h1>
+          <p>Des offres triées par métier et par spécialité, et un espace intelligent pour t'aider à postuler.</p>
+          <div class="search-box">
+            <div>
+              <label>Quoi ?</label>
+              <input id="q-accueil" type="text" placeholder="Métier, diplôme, ville..." />
+            </div>
+            <button class="btn-green" onclick="rechercherDepuisAccueil()">Rechercher</button>
           </div>
-          <button class="btn-green" onclick="document.getElementById('catalogue').scrollIntoView({behavior:'smooth'})">Rechercher</button>
+        </div>
+        <div class="slideshow">
+          <img id="slide-img" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80" alt="Diaporama stages en Tunisie" />
+          <div class="slide-caption" id="slide-text">Des centaines d'opportunités de stages PFE et d'été partout en Tunisie.</div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="section-title">Explore par Catégorie de Formation</h2>
+        <p class="section-desc">Sélectionne ton niveau d'études pour ouvrir les offres correspondantes :</p>
+        <div class="grid-3">
+          <div class="card"><h3>Licence</h3><p>Stages de fin d'année et PFE pour étudiants en Licence.</p><button class="btn-outline" onclick="filtrer('Licence')">Voir les offres</button></div>
+          <div class="card"><h3>Ingénieur</h3><p>Stages techniques et PFE pour cycles d'ingénieurs.</p><button class="btn-outline" onclick="filtrer('Ingénieur')">Voir les offres</button></div>
+          <div class="card"><h3>Master</h3><p>Opportunités de stages professionnels et de recherche.</p><button class="btn-outline" onclick="filtrer('Master')">Voir les offres</button></div>
+          <div class="card"><h3>Doctorat / Recherche</h3><p>Thèses en entreprise et stages scientifiques avancés.</p><button class="btn-outline" onclick="filtrer('Doctorat')">Voir les offres</button></div>
+          <div class="card"><h3>Technicien / BTS</h3><p>Stages ouvriers et de perfectionnement technique.</p><button class="btn-outline" onclick="filtrer('BTS / Technicien')">Voir les offres</button></div>
+          <div class="card"><h3>Cybersécurité & Dev</h3><p>Développement web, mobile et sécurité informatique.</p><button class="btn-outline" onclick="filtrer('Cybersécurité & Dev')">Voir les offres</button></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- PAGE 2 : OFFRES & FORMATIONS (Page dédiée) -->
+    <div id="page-catalogue" class="page-view">
+      <div style="margin-bottom:18px;">
+        <button class="btn-outline" onclick="changerPage('accueil')">← Retour à l'accueil</button>
+      </div>
+      <h2 class="section-title">Catalogue Complet des Offres de Stages</h2>
+      <p class="section-desc">Filtre par formation ou clique sur une offre pour ouvrir sa description détaillée :</p>
+
+      <div class="search-box" style="margin-bottom:20px;">
+        <div>
+          <label>Filtrer par mot-clé ou ville</label>
+          <input id="q" type="text" placeholder="Ex: Développeur, Tunis, Sousse, Licence..." oninput="afficherOffres()" />
         </div>
       </div>
-      <div class="slideshow">
-        <img id="slide-img" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80" alt="Diaporama stages en Tunisie" />
-        <div class="slide-caption" id="slide-text">Des centaines d'opportunités de stages PFE et d'été partout en Tunisie.</div>
-      </div>
-    </section>
 
-    <section>
-      <h2 class="section-title">Explore par Catégorie de Formation</h2>
-      <p class="section-desc">Sélectionne ton niveau d'études :</p>
-      <div class="grid-3">
-        <div class="card"><h3>Licence</h3><p>Stages de fin d'année et PFE pour étudiants en Licence.</p><button class="btn-outline" onclick="filtrer('Licence')">Voir les offres</button></div>
-        <div class="card"><h3>Ingénieur</h3><p>Stages techniques et PFE pour cycles d'ingénieurs.</p><button class="btn-outline" onclick="filtrer('Ingénieur')">Voir les offres</button></div>
-        <div class="card"><h3>Master</h3><p>Opportunités de stages professionnels et de recherche.</p><button class="btn-outline" onclick="filtrer('Master')">Voir les offres</button></div>
-        <div class="card"><h3>Doctorat / Recherche</h3><p>Thèses en entreprise et stages scientifiques avancés.</p><button class="btn-outline" onclick="filtrer('Doctorat')">Voir les offres</button></div>
-        <div class="card"><h3>Technicien / BTS</h3><p>Stages ouvriers et de perfectionnement technique.</p><button class="btn-outline" onclick="filtrer('BTS / Technicien')">Voir les offres</button></div>
-        <div class="card"><h3>Cybersécurité & Dev</h3><p>Développement web, mobile et sécurité informatique.</p><button class="btn-outline" onclick="filtrer('Cybersécurité & Dev')">Voir les offres</button></div>
-      </div>
-    </section>
-
-    <section id="catalogue">
-      <h2 class="section-title">Catalogue Complet des Offres de Stages</h2>
-      <p class="section-desc">Sélectionne une catégorie ci-dessous pour filtrer instantanément, ou clique sur une offre pour lire sa description complète :</p>
       <div class="pills" id="pills">
         <button class="pill active" onclick="filtrer('Tous')">Tous</button>
         <button class="pill" onclick="filtrer('Licence')">Licence</button>
@@ -375,56 +406,67 @@
         <button class="pill" onclick="filtrer('BTS / Technicien')">BTS / Technicien</button>
         <button class="pill" onclick="filtrer('Cybersécurité & Dev')">Cybersécurité & Dev</button>
       </div>
+
       <div class="grid-3" id="liste-offres"></div>
-    </section>
+    </div>
 
-    <!-- Espace CV & Amélioration IA -->
-    <section id="mon-cv" class="cv-section">
-      <h2 class="section-title">📄 Dépose ton CV & Améliore-le avec l'Agent IA</h2>
-      <p class="section-desc">Importe ton fichier CV ou colle son contenu ci-dessous : notre assistant analyse tes points forts et te propose une version optimisée pour les recruteurs en Tunisie.</p>
-
-      <div class="cv-grid">
-        <div class="cv-box">
-          <h3>1. Ton CV actuel</h3>
-          <div class="file-drop">
-            <label for="cv-file"><strong>Importer un fichier CV (PDF, DOCX, TXT) :</strong></label><br />
-            <input id="cv-file" type="file" accept=".pdf,.doc,.docx,.txt" onchange="chargerFichierCV(event)" style="margin-top:6px;color:#fff;" />
-            <div id="cv-file-status" style="margin-top:6px;color:#0fd682;font-size:12px;"></div>
-          </div>
-
-          <div class="field">
-            <label for="cv-poste">Poste ou domaine visé :</label>
-            <input id="cv-poste" type="text" placeholder="Ex: Stage PFE Développement Web, Data / BI, Gestion..." />
-          </div>
-
-          <textarea id="cv-texte" placeholder="Colle ici le texte de ton CV (formation, compétences, projets universitaires, stages, langues)..."></textarea>
-
-          <div class="actions" style="margin-top:12px;">
-            <button class="btn-green" onclick="ameliorerCV()">✨ Analyser & Améliorer mon CV</button>
-            <button class="btn-outline" onclick="remplirExempleCV()">Exemple de CV</button>
-          </div>
-        </div>
-
-        <div class="cv-box">
-          <h3>2. Diagnostic & Version Améliorée</h3>
-          <p style="font-size:13px;color:#b9d4da;">Score estimé, recommandations concrètes et modèle reformulé prêt à copier :</p>
-          <div class="cv-result-area" id="cv-resultat">Clique sur « ✨ Analyser & Améliorer mon CV » pour obtenir une analyse complète et une version améliorée de ton CV.</div>
-          <div class="actions" style="margin-top:12px;">
-            <button class="btn-outline" onclick="copierCVAmeliore()">📋 Copier le CV amélioré</button>
-          </div>
-        </div>
+    <!-- PAGE 3 : MON CV & AMÉLIORATION IA (Page dédiée) -->
+    <div id="page-cv" class="page-view">
+      <div style="margin-bottom:18px;">
+        <button class="btn-outline" onclick="changerPage('accueil')">← Retour à l'accueil</button>
       </div>
-    </section>
+      <section class="cv-section">
+        <h2 class="section-title">📄 Dépose ton CV & Améliore-le avec l'Agent IA</h2>
+        <p class="section-desc">Importe ton fichier CV ou colle son contenu ci-dessous : notre assistant analyse tes points forts et te propose une version optimisée.</p>
 
-    <section id="conseils">
+        <div class="cv-grid">
+          <div class="cv-box">
+            <h3>1. Ton CV actuel</h3>
+            <div class="file-drop">
+              <label for="cv-file"><strong>Importer un fichier CV (PDF, DOCX, TXT) :</strong></label><br />
+              <input id="cv-file" type="file" accept=".pdf,.doc,.docx,.txt" onchange="chargerFichierCV(event)" style="margin-top:6px;color:#fff;" />
+              <div id="cv-file-status" style="margin-top:6px;color:#0fd682;font-size:12px;"></div>
+            </div>
+
+            <div class="field">
+              <label for="cv-poste">Poste ou domaine visé :</label>
+              <input id="cv-poste" type="text" placeholder="Ex: Stage PFE Développement Web, Data / BI, Gestion..." />
+            </div>
+
+            <textarea id="cv-texte" placeholder="Colle ici le texte de ton CV (formation, compétences, projets universitaires, stages, langues)..."></textarea>
+
+            <div class="actions" style="margin-top:12px;">
+              <button class="btn-green" onclick="ameliorerCV()">✨ Analyser & Améliorer mon CV</button>
+              <button class="btn-outline" onclick="remplirExempleCV()">Exemple de CV</button>
+            </div>
+          </div>
+
+          <div class="cv-box">
+            <h3>2. Diagnostic & Version Améliorée</h3>
+            <p style="font-size:13px;color:#b9d4da;">Score estimé, recommandations concrètes et modèle reformulé prêt à copier :</p>
+            <div class="cv-result-area" id="cv-resultat">Clique sur « ✨ Analyser & Améliorer mon CV » pour obtenir une analyse complète et une version améliorée de ton CV.</div>
+            <div class="actions" style="margin-top:12px;">
+              <button class="btn-outline" onclick="copierCVAmeliore()">📋 Copier le CV amélioré</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- PAGE 4 : NOS CONSEILS POUR TON STAGE (Page dédiée) -->
+    <div id="page-conseils" class="page-view">
+      <div style="margin-bottom:18px;">
+        <button class="btn-outline" onclick="changerPage('accueil')">← Retour à l'accueil</button>
+      </div>
       <h2 class="section-title">Nos conseils pour ton stage</h2>
+      <p class="section-desc">Clique sur une carte pour accéder directement à l'outil correspondant :</p>
       <div class="grid-3">
-        <div class="card" style="cursor:pointer;" onclick="document.getElementById('mon-cv').scrollIntoView({behavior:'smooth'})">
+        <div class="card" style="cursor:pointer;" onclick="changerPage('cv')">
           <h3>Préparer ton CV</h3>
           <p>Mets en avant tes compétences techniques, tes projets universitaires et tes stages précédents.</p>
-          <button class="btn-outline" type="button">Ouvrir l'outil CV →</button>
+          <button class="btn-outline" type="button">Ouvrir la page CV →</button>
         </div>
-        <div class="card" style="cursor:pointer;" onclick="document.getElementById('catalogue').scrollIntoView({behavior:'smooth'})">
+        <div class="card" style="cursor:pointer;" onclick="changerPage('catalogue')">
           <h3>Personnaliser ta candidature</h3>
           <p>Adapte ton message de motivation à chaque entreprise et poste visé.</p>
           <button class="btn-outline" type="button">Voir les offres →</button>
@@ -435,7 +477,8 @@
           <button class="btn-outline" type="button">Parler à l'Agent IA →</button>
         </div>
       </div>
-    </section>
+    </div>
+
   </main>
 
   <footer>© 2026 stage.tn. Tous droits réservés.</footer>
@@ -460,6 +503,24 @@
   </div>
 
   <script>
+    /* Navigation entre les pages */
+    function changerPage(nomPage) {
+      document.querySelectorAll(".page-view").forEach(v => v.classList.remove("active"));
+      document.querySelectorAll(".nav-link").forEach(b => b.classList.remove("active"));
+      document.getElementById("page-" + nomPage).classList.add("active");
+      const navBtn = document.getElementById("nav-" + nomPage);
+      if (navBtn) navBtn.classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function rechercherDepuisAccueil() {
+      const val = document.getElementById("q-accueil").value;
+      document.getElementById("q").value = val;
+      changerPage("catalogue");
+      afficherOffres();
+    }
+
+    /* Diaporama de la page d'accueil */
     const slides = [
       { img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80", txt: "Des centaines d'opportunités de stages PFE et d'été partout en Tunisie." },
       { img: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=900&q=80", txt: "Rejoins des équipes innovantes dans le développement, la gestion et le marketing." },
@@ -472,6 +533,7 @@
       document.getElementById("slide-text").textContent = slides[slideIdx].txt;
     }, 4500);
 
+    /* Catalogue des offres */
     const offres = [
       {
         id: 1,
@@ -575,8 +637,8 @@
     function filtrer(cat) {
       catActive = cat;
       document.querySelectorAll(".pill").forEach(p => p.classList.toggle("active", p.textContent.trim() === cat));
+      changerPage("catalogue");
       afficherOffres();
-      document.getElementById("catalogue").scrollIntoView({ behavior: "smooth" });
     }
 
     function afficherOffres() {
@@ -740,7 +802,7 @@
         `Étudiant(e) motivé(e), rigoureux(se) et orienté(e) résultats, souhaitant mettre ses compétences pratiques au service d'une équipe dynamique en Tunisie.\n\n` +
         `EXPÉRIENCES, PROJETS & COMPÉTENCES REFORMULÉS\n` +
         `${texte}\n\n` +
-        `ATOUS CLÉS POUR LE RECRUTEUR\n` +
+        `ATOUTS CLÉS POUR LE RECRUTEUR\n` +
         `• Capacité d'adaptation rapide et travail en équipe\n` +
         `• Maîtrise des outils numériques et suivi méthodique des objectifs`;
 
@@ -771,7 +833,7 @@
       const q = txt.toLowerCase();
       let rep = "Je peux t'aider à choisir une offre, améliorer ton CV ou préparer ton entretien. Que souhaites-tu faire ?";
       if (q.includes("cv") || q.includes("amelior") || q.includes("postuler")) {
-        rep = "Va dans la section « 📄 Dépose ton CV & Améliore-le avec l'Agent IA » juste au-dessus, colle ton CV et clique sur « ✨ Analyser & Améliorer mon CV » !";
+        rep = "Clique sur « Améliorer mon CV » dans la barre de menu en haut pour déposer ton CV et obtenir une version améliorée !";
       } else if (q.includes("entretien")) {
         rep = "Prépare une présentation claire de 2 minutes sur ton parcours et pose 2 questions concrètes sur les missions du stage.";
       } else if (q.includes("compte")) {
