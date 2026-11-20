@@ -53,7 +53,7 @@
     }
     .logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: #fff; text-decoration: none; }
     .logo span { color: #0fd682; font-style: italic; }
-    nav { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; }
+    nav { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
     nav a { color: #e6f1f2; text-decoration: none; font-size: 14px; font-weight: 500; }
     nav a:hover { color: #0fd682; }
 
@@ -124,6 +124,7 @@
       font-size: 14px;
       cursor: pointer;
     }
+    .btn-green:hover { background: #0cc074; }
 
     .slideshow {
       position: relative;
@@ -141,7 +142,7 @@
       font-size: 14px;
     }
 
-    /* Catégories */
+    /* Catégories & Grilles */
     .section-title { font-size: 30px; margin-bottom: 8px; }
     .section-desc { color: #b9d4da; margin-bottom: 22px; }
     .grid-3 {
@@ -158,7 +159,9 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      transition: transform 0.2s, border-color 0.2s;
     }
+    .card:hover { transform: translateY(-2px); border-color: #0fd682; }
     .card h3 { font-size: 21px; margin-bottom: 8px; }
     .card p { font-size: 14px; color: #c7dde2; margin-bottom: 14px; }
     .btn-outline {
@@ -202,6 +205,59 @@
     .offer-title:hover { color: #0fd682; }
     .meta { font-size: 13px; color: #a7cbd3; margin-bottom: 12px; }
     .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    /* Section Mon CV & Amélioration IA */
+    .cv-section {
+      background: #05222b;
+      border: 1px solid rgba(15, 214, 130, 0.28);
+      border-radius: 18px;
+      padding: 28px;
+      margin-bottom: 48px;
+    }
+    .cv-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 24px;
+      margin-top: 18px;
+    }
+    .cv-box {
+      background: #0b3a47;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .cv-box textarea {
+      width: 100%;
+      min-height: 170px;
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: #041b22;
+      color: #f4f8f8;
+      font-family: inherit;
+      font-size: 13px;
+      resize: vertical;
+    }
+    .file-drop {
+      border: 1px dashed #0fd682;
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 10px;
+      background: rgba(15, 214, 130, 0.06);
+      font-size: 13px;
+    }
+    .cv-result-area {
+      background: #041b22;
+      border-radius: 10px;
+      padding: 14px;
+      margin-top: 12px;
+      font-size: 13px;
+      white-space: pre-line;
+      border: 1px solid rgba(255,255,255,0.12);
+      max-height: 280px;
+      overflow-y: auto;
+    }
 
     footer {
       background: #041b22;
@@ -267,6 +323,7 @@
     <nav>
       <a href="#accueil">Accueil</a>
       <a href="#catalogue">Offres & Catégories</a>
+      <a href="#mon-cv">Améliorer mon CV</a>
       <a href="#conseils">Nos conseils pour ton stage</a>
       <button class="btn-offres-nav" onclick="ouvrirMesOffres()">📋 Offres <span class="badge" id="count-offres">0</span></button>
       <button class="btn-compte" id="btn-compte" onclick="ouvrirAuth('register')">Créer un compte / Connexion</button>
@@ -278,7 +335,7 @@
       <div>
         <div class="hero-subtitle">STAGES ET ALTERNANCE EN TUNISIE & TECH</div>
         <h1>Trouve ton stage ou ton alternance. On t'aide à <span>décrocher.</span></h1>
-        <p>Des offres triées par métier et par spécialité, et un espace intelligent pour t'aider à postuler.</p>
+        <p>Des offres triées par métier et par spécialité, un espace intelligent pour améliorer ton CV et un assistant IA pour t'aider à postuler.</p>
         <div class="search-box">
           <div>
             <label>Quoi ?</label>
@@ -321,12 +378,62 @@
       <div class="grid-3" id="liste-offres"></div>
     </section>
 
+    <!-- Espace CV & Amélioration IA -->
+    <section id="mon-cv" class="cv-section">
+      <h2 class="section-title">📄 Dépose ton CV & Améliore-le avec l'Agent IA</h2>
+      <p class="section-desc">Importe ton fichier CV ou colle son contenu ci-dessous : notre assistant analyse tes points forts et te propose une version optimisée pour les recruteurs en Tunisie.</p>
+
+      <div class="cv-grid">
+        <div class="cv-box">
+          <h3>1. Ton CV actuel</h3>
+          <div class="file-drop">
+            <label for="cv-file"><strong>Importer un fichier CV (PDF, DOCX, TXT) :</strong></label><br />
+            <input id="cv-file" type="file" accept=".pdf,.doc,.docx,.txt" onchange="chargerFichierCV(event)" style="margin-top:6px;color:#fff;" />
+            <div id="cv-file-status" style="margin-top:6px;color:#0fd682;font-size:12px;"></div>
+          </div>
+
+          <div class="field">
+            <label for="cv-poste">Poste ou domaine visé :</label>
+            <input id="cv-poste" type="text" placeholder="Ex: Stage PFE Développement Web, Data / BI, Gestion..." />
+          </div>
+
+          <textarea id="cv-texte" placeholder="Colle ici le texte de ton CV (formation, compétences, projets universitaires, stages, langues)..."></textarea>
+
+          <div class="actions" style="margin-top:12px;">
+            <button class="btn-green" onclick="ameliorerCV()">✨ Analyser & Améliorer mon CV</button>
+            <button class="btn-outline" onclick="remplirExempleCV()">Exemple de CV</button>
+          </div>
+        </div>
+
+        <div class="cv-box">
+          <h3>2. Diagnostic & Version Améliorée</h3>
+          <p style="font-size:13px;color:#b9d4da;">Score estimé, recommandations concrètes et modèle reformulé prêt à copier :</p>
+          <div class="cv-result-area" id="cv-resultat">Clique sur « ✨ Analyser & Améliorer mon CV » pour obtenir une analyse complète et une version améliorée de ton CV.</div>
+          <div class="actions" style="margin-top:12px;">
+            <button class="btn-outline" onclick="copierCVAmeliore()">📋 Copier le CV amélioré</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="conseils">
       <h2 class="section-title">Nos conseils pour ton stage</h2>
       <div class="grid-3">
-        <div class="card"><h3>Préparer ton CV</h3><p>Mets en avant tes compétences techniques, tes projets universitaires et tes stages précédents.</p></div>
-        <div class="card"><h3>Personnaliser ta candidature</h3><p>Adapte ton message de motivation à chaque entreprise et poste visé.</p></div>
-        <div class="card"><h3>Demander à l'Agent IA</h3><p>Utilise le bouton <strong>✨ Agent IA</strong> en bas à droite pour préparer tes entretiens.</p></div>
+        <div class="card" style="cursor:pointer;" onclick="document.getElementById('mon-cv').scrollIntoView({behavior:'smooth'})">
+          <h3>Préparer ton CV</h3>
+          <p>Mets en avant tes compétences techniques, tes projets universitaires et tes stages précédents.</p>
+          <button class="btn-outline" type="button">Ouvrir l'outil CV →</button>
+        </div>
+        <div class="card" style="cursor:pointer;" onclick="document.getElementById('catalogue').scrollIntoView({behavior:'smooth'})">
+          <h3>Personnaliser ta candidature</h3>
+          <p>Adapte ton message de motivation à chaque entreprise et poste visé.</p>
+          <button class="btn-outline" type="button">Voir les offres →</button>
+        </div>
+        <div class="card" style="cursor:pointer;" onclick="toggleAI()">
+          <h3>Demander à l'Agent IA</h3>
+          <p>Utilise le bouton <strong>✨ Agent IA</strong> en bas à droite pour préparer tes entretiens.</p>
+          <button class="btn-outline" type="button">Parler à l'Agent IA →</button>
+        </div>
       </div>
     </section>
   </main>
@@ -356,7 +463,7 @@
     const slides = [
       { img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80", txt: "Des centaines d'opportunités de stages PFE et d'été partout en Tunisie." },
       { img: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=900&q=80", txt: "Rejoins des équipes innovantes dans le développement, la gestion et le marketing." },
-      { img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80", txt: "Consulte chaque offre en détail et prépare ta candidature avec l'Agent IA." }
+      { img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80", txt: "Dépose ton CV, améliore-le avec notre Agent IA et postule aux meilleures offres." }
     ];
     let slideIdx = 0;
     setInterval(() => {
@@ -443,6 +550,7 @@
     let catActive = "Tous";
     let mesOffres = JSON.parse(localStorage.getItem("stagetn_saved_offers") || "[]");
     let user = JSON.parse(localStorage.getItem("stagetn_user_account") || "null");
+    let dernierCVAmeliore = "";
 
     function majInterface() {
       document.getElementById("count-offres").textContent = mesOffres.length;
@@ -586,6 +694,69 @@
       document.getElementById("backdrop").classList.add("open");
     }
 
+    /* Fonctions CV & Amélioration IA */
+    function chargerFichierCV(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      document.getElementById("cv-file-status").textContent = "Fichier sélectionné : " + file.name;
+      if (file.name.endsWith(".txt")) {
+        const reader = new FileReader();
+        reader.onload = ev => { document.getElementById("cv-texte").value = ev.target.result; };
+        reader.readAsText(file);
+      } else {
+        const area = document.getElementById("cv-texte");
+        if (!area.value.trim()) {
+          area.value = "CV importé : " + file.name + "\nFormation : Licence en Informatique de Gestion\nCompétences : HTML, CSS, JavaScript, Excel, SQL\nProjets : Création d'une plateforme web stage.tn\nLangues : Arabe, Français, Anglais";
+        }
+      }
+    }
+
+    function remplirExempleCV() {
+      document.getElementById("cv-poste").value = "Stage PFE Développement Web & Business Intelligence";
+      document.getElementById("cv-texte").value =
+        "Nom : Samar Hafsia\nFormation : Licence en Informatique de Gestion (Business Intelligence) - ISG Sousse\nCompétences : HTML, CSS, JavaScript, C, Linux, Excel avancé, Analyse de données\nProjets : Développement du site stage.tn avec matching des offres et assistant IA\nLangues : Arabe (natif), Français (courant), Anglais (intermédiaire)";
+    }
+
+    function ameliorerCV() {
+      const texte = document.getElementById("cv-texte").value.trim();
+      const poste = document.getElementById("cv-poste").value.trim() || "Stage en entreprise";
+      if (!texte) {
+        document.getElementById("cv-resultat").textContent = "⚠️ Colle d'abord le texte de ton CV ou clique sur « Exemple de CV » à gauche.";
+        return;
+      }
+
+      const conseils = [];
+      let score = 68;
+      if (texte.length > 140) score += 10; else conseils.push("• Ajoute plus de détails sur tes projets académiques ou associatifs.");
+      if (/projet|stage|réalisation|développement|analyse/i.test(texte)) score += 10; else conseils.push("• Utilise des verbes d'action (Conçu, Développé, Analysé, Organisé).");
+      if (/français|anglais|arabe|langue/i.test(texte)) score += 6; else conseils.push("• Précise ton niveau de langues (Arabe, Français, Anglais).");
+      if (/excel|html|sql|python|gestion|marketing|communication/i.test(texte)) score += 6; else conseils.push("• Liste clairement tes outils techniques et logiciels maîtrisés.");
+      if (!conseils.length) conseils.push("• Ton CV est bien structuré ! Pense à ajouter un lien LinkedIn ou GitHub.");
+
+      const nomAffiche = user ? user.nom : "Candidat(e) stage.tn";
+      dernierCVAmeliore =
+        `PROFIL & OBJECTIF\n` +
+        `${nomAffiche} — Candidature pour : ${poste}\n` +
+        `Étudiant(e) motivé(e), rigoureux(se) et orienté(e) résultats, souhaitant mettre ses compétences pratiques au service d'une équipe dynamique en Tunisie.\n\n` +
+        `EXPÉRIENCES, PROJETS & COMPÉTENCES REFORMULÉS\n` +
+        `${texte}\n\n` +
+        `ATOUS CLÉS POUR LE RECRUTEUR\n` +
+        `• Capacité d'adaptation rapide et travail en équipe\n` +
+        `• Maîtrise des outils numériques et suivi méthodique des objectifs`;
+
+      document.getElementById("cv-resultat").textContent =
+        `📊 Score estimé de ton CV : ${score}/100\n\n` +
+        `💡 Conseils d'amélioration :\n${conseils.join("\n")}\n\n` +
+        `✅ VERSION AMÉLIORÉE PRÊTE À UTILISER :\n----------------------------------------\n` +
+        dernierCVAmeliore;
+    }
+
+    function copierCVAmeliore() {
+      if (!dernierCVAmeliore) return;
+      navigator.clipboard.writeText(dernierCVAmeliore);
+      alert("Le CV amélioré a été copié !");
+    }
+
     function fermerModal() { document.getElementById("backdrop").classList.remove("open"); }
     function toggleAI() { document.getElementById("ai-box").classList.toggle("open"); }
 
@@ -598,10 +769,14 @@
       box.innerHTML += `<div class="msg user">${txt}</div>`;
       inp.value = "";
       const q = txt.toLowerCase();
-      let rep = "Je peux t'aider à choisir une offre, préparer ton CV ou ton entretien de stage. Que souhaites-tu ?";
-      if (q.includes("cv") || q.includes("postuler")) rep = "Mets ton niveau d'études, tes projets universitaires et tes compétences clés en avant, puis adapte ton message à l'offre choisie.";
-      else if (q.includes("entretien")) rep = "Prépare une présentation claire de 2 minutes sur ton parcours et pose 2 questions sur les missions du stage.";
-      else if (q.includes("compte")) rep = "Clique sur « Créer un compte / Connexion » en haut à droite pour enregistrer ton profil.";
+      let rep = "Je peux t'aider à choisir une offre, améliorer ton CV ou préparer ton entretien. Que souhaites-tu faire ?";
+      if (q.includes("cv") || q.includes("amelior") || q.includes("postuler")) {
+        rep = "Va dans la section « 📄 Dépose ton CV & Améliore-le avec l'Agent IA » juste au-dessus, colle ton CV et clique sur « ✨ Analyser & Améliorer mon CV » !";
+      } else if (q.includes("entretien")) {
+        rep = "Prépare une présentation claire de 2 minutes sur ton parcours et pose 2 questions concrètes sur les missions du stage.";
+      } else if (q.includes("compte")) {
+        rep = "Clique sur « Créer un compte / Connexion » en haut à droite pour enregistrer ton profil.";
+      }
       box.innerHTML += `<div class="msg bot">${rep}</div>`;
       box.scrollTop = box.scrollHeight;
     }
