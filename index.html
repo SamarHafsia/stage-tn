@@ -39,10 +39,11 @@
 
     .section-title { font-size: 28px; margin-bottom: 8px; }
     .section-desc { color: #b9d4da; margin-bottom: 20px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-bottom: 32px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 18px; margin-bottom: 32px; }
     .card { background: #0b3a47; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; }
     .card h3 { font-size: 20px; margin-bottom: 8px; }
-    .card p { font-size: 14px; color: #c7dde2; margin-bottom: 14px; }
+    .card p { font-size: 14px; color: #c7dde2; margin-bottom: 12px; }
+    .meta-offre { font-size: 12px; color: #0fd682; font-weight: 600; margin-bottom: 8px; }
 
     .btn-green { background: #0fd682; color: #05222b; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px; }
     .btn-outline { background: transparent; border: 1px solid #0fd682; color: #0fd682; padding: 8px 14px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; }
@@ -55,8 +56,10 @@
 
     .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.72); display: none; align-items: center; justify-content: center; padding: 16px; z-index: 1000; }
     .backdrop.open { display: flex; }
-    .modal { background: #08323e; border: 1px solid rgba(255,255,255,0.18); border-radius: 16px; max-width: 480px; width: 100%; padding: 24px; }
+    .modal { background: #08323e; border: 1px solid rgba(255,255,255,0.18); border-radius: 16px; max-width: 520px; width: 100%; padding: 24px; }
     .modal h2 { color: #0fd682; margin-bottom: 10px; }
+    .modal ul { margin: 10px 0 14px 20px; font-size: 14px; color: #d8ecef; }
+    .modal li { margin-bottom: 6px; }
     .field { margin-top: 12px; }
     .field label { display: block; font-size: 13px; }
     .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
@@ -106,23 +109,26 @@
         <h2 class="section-title">Explore par Catégorie de Formation</h2>
         <p class="section-desc">Sélectionne ton niveau d'études :</p>
         <div class="grid-3">
-          <div class="card"><h3>Licence</h3><p>Stages de fin d'année et PFE pour étudiants en Licence.</p><button class="btn-outline" onclick="filtrer('Licence')">Voir les offres</button></div>
-          <div class="card"><h3>Ingénieur</h3><p>Stages techniques et PFE pour cycles d'ingénieurs.</p><button class="btn-outline" onclick="filtrer('Ingénieur')">Voir les offres</button></div>
-          <div class="card"><h3>Master</h3><p>Opportunités de stages professionnels et de recherche.</p><button class="btn-outline" onclick="filtrer('Master')">Voir les offres</button></div>
+          <div class="card"><h3>Licence</h3><p>Stages de fin d'année et PFE pour étudiants en Licence (3 à 6 mois).</p><button class="btn-outline" onclick="filtrer('Licence')">Voir les offres</button></div>
+          <div class="card"><h3>Ingénieur</h3><p>Stages techniques et PFE pour cycles d'ingénieurs (4 à 6 mois).</p><button class="btn-outline" onclick="filtrer('Ingénieur')">Voir les offres</button></div>
+          <div class="card"><h3>Master</h3><p>Opportunités de stages professionnels et de recherche appliquée.</p><button class="btn-outline" onclick="filtrer('Master')">Voir les offres</button></div>
           <div class="card"><h3>Doctorat</h3><p>Thèses en entreprise et stages scientifiques avancés.</p><button class="btn-outline" onclick="filtrer('Doctorat')">Voir les offres</button></div>
-          <div class="card"><h3>BTS / Technicien</h3><p>Stages ouvriers et de perfectionnement technique.</p><button class="btn-outline" onclick="filtrer('BTS / Technicien')">Voir les offres</button></div>
-          <div class="card"><h3>Cybersécurité & Dev</h3><p>Développement web, mobile et sécurité informatique.</p><button class="btn-outline" onclick="filtrer('Cybersécurité & Dev')">Voir les offres</button></div>
+          <div class="card"><h3>BTS / Technicien</h3><p>Stages ouvriers et de perfectionnement technique (1 à 3 mois).</p><button class="btn-outline" onclick="filtrer('BTS / Technicien')">Voir les offres</button></div>
+          <div class="card"><h3>Cybersécurité & Dev</h3><p>Développement web, data, mobile et sécurité informatique.</p><button class="btn-outline" onclick="filtrer('Cybersécurité & Dev')">Voir les offres</button></div>
         </div>
       </section>
     </div>
 
     <div id="page-catalogue" class="page-view">
       <h2 class="section-title">Catalogue des Offres de Stages</h2>
+      <p class="section-desc">Clique sur « Voir la description » pour lire les missions et compétences demandées.</p>
       <div class="pills">
         <button class="pill active" onclick="filtrer('Tous')">Tous</button>
         <button class="pill" onclick="filtrer('Licence')">Licence</button>
         <button class="pill" onclick="filtrer('Ingénieur')">Ingénieur</button>
         <button class="pill" onclick="filtrer('Master')">Master</button>
+        <button class="pill" onclick="filtrer('Doctorat')">Doctorat</button>
+        <button class="pill" onclick="filtrer('BTS / Technicien')">BTS / Technicien</button>
         <button class="pill" onclick="filtrer('Cybersécurité & Dev')">Cybersécurité & Dev</button>
       </div>
       <div class="grid-3" id="liste-offres"></div>
@@ -175,13 +181,118 @@
 
   <script>
     const offres = [
-      { titre: "Stage PFE Développeur Web", cat: "Licence", lieu: "Tunis" },
-      { titre: "Stage Ingénieur Data & BI", cat: "Ingénieur", lieu: "Sousse" },
-      { titre: "Stage Marketing Digital", cat: "Master", lieu: "Sfax" },
-      { titre: "Stage Analyste Sécurité Web", cat: "Cybersécurité & Dev", lieu: "Tunis" }
+      {
+        id: 1,
+        titre: "Stage PFE Développeur Web",
+        cat: "Licence",
+        lieu: "Tunis",
+        duree: "4 mois",
+        resume: "Développement d'une application web responsive et gestion de base de données.",
+        description: "Vous rejoindrez l'équipe produit pour concevoir, développer et tester des interfaces web modernes tout en collaborant sur l'intégration des données.",
+        missions: [
+          "Créer des pages web responsives en HTML, CSS et JavaScript",
+          "Connecter l'interface à une base de données ou API",
+          "Rédiger le rapport et soutenir le projet de fin d'études (PFE)"
+        ],
+        competences: "HTML5, CSS3, JavaScript, bases de données, esprit d'équipe"
+      },
+      {
+        id: 2,
+        titre: "Stage Ingénieur Data & BI",
+        cat: "Ingénieur",
+        lieu: "Sousse",
+        duree: "6 mois",
+        resume: "Analyse de données, tableaux de bord décisionnels et automatisation de rapports.",
+        description: "Stage d'ingénieur orienté Business Intelligence et analyse de données pour transformer des données brutes en indicateurs de pilotage clairs.",
+        missions: [
+          "Nettoyer et structurer des jeux de données métiers",
+          "Concevoir des tableaux de bord et indicateurs de performance (KPI)",
+          "Automatiser le suivi des rapports pour les équipes"
+        ],
+        competences: "SQL, Excel avancé, modélisation des données, esprit analytique"
+      },
+      {
+        id: 3,
+        titre: "Stage Marketing Digital & Growth",
+        cat: "Master",
+        lieu: "Sfax",
+        duree: "4 mois",
+        resume: "Suivi des campagnes digitales, analyse d'audience et optimisation du contenu.",
+        description: "Stage destiné aux étudiants en Master pour accompagner la visibilité en ligne et mesurer la performance des actions de communication.",
+        missions: [
+          "Planifier et publier des contenus adaptés aux cibles étudiantes et pros",
+          "Analyser les statistiques de trafic et d'engagement",
+          "Proposer des améliorations sur le parcours utilisateur"
+        ],
+        competences: "Rédaction, analyse de statistiques, organisation, créativité"
+      },
+      {
+        id: 4,
+        titre: "Stage Analyste Sécurité Web",
+        cat: "Cybersécurité & Dev",
+        lieu: "Tunis",
+        duree: "5 mois",
+        resume: "Audit de sécurité applicative, bonnes pratiques et protection des données.",
+        description: "Stage technique focalisé sur la sécurisation des applications web, l'identification des failles courantes et l'application des bonnes pratiques.",
+        missions: [
+          "Vérifier la sécurité des formulaires, accès et configurations",
+          "Documenter les vulnérabilités et proposer des corrections",
+          "Participer aux revues techniques avec l'équipe développement"
+        ],
+        competences: "Réseaux et web, rigueur, analyse de failles, documentation"
+      },
+      {
+        id: 5,
+        titre: "Stage Technicien Support & Systèmes",
+        cat: "BTS / Technicien",
+        lieu: "Monastir",
+        duree: "2 mois",
+        resume: "Maintenance des postes, assistance utilisateurs et suivi réseau local.",
+        description: "Stage pratique idéal pour un technicien ou BTS afin de gagner en autonomie sur le support technique et l'environnement système.",
+        missions: [
+          "Installer et configurer les postes de travail et outils bureautiques",
+          "Assister les utilisateurs et résoudre les incidents courants",
+          "Vérifier la connectivité réseau et sauvegarder les procédures"
+        ],
+        competences: "Systèmes (Windows/Linux), réseau de base, sens du service"
+      },
+      {
+        id: 6,
+        titre: "Stage Recherche IA & Traitement de Données",
+        cat: "Doctorat",
+        lieu: "Tunis",
+        duree: "6 mois",
+        resume: "Expérimentation de modèles d'analyse et valorisation scientifique des résultats.",
+        description: "Stage de recherche appliquée portant sur l'analyse avancée de données, l'expérimentation méthodique et la rédaction de synthèses techniques.",
+        missions: [
+          "Mettre en place des protocoles de test et d'évaluation",
+          "Comparer différentes approches d'analyse sur des données réelles",
+          "Rédiger une synthèse structurée des résultats obtenus"
+        ],
+        competences: "Méthodologie de recherche, statistiques, programmation, rigueur"
+      }
     ];
+
     let catCourante = "Tous";
     let user = JSON.parse(localStorage.getItem("stagetn_user_account") || "null");
+
+    function voirDescriptionOffre(id) {
+      const offre = offres.find(o => o.id === id);
+      if (!offre) return;
+      document.getElementById("modal-box").innerHTML = `
+        <div class="meta-offre">${offre.cat} • ${offre.lieu} • Durée : ${offre.duree}</div>
+        <h2>${offre.titre}</h2>
+        <p style="margin-top:8px;color:#e6f1f2;">${offre.description}</p>
+        <h3 style="margin-top:14px;font-size:17px;color:#0fd682;">Missions principales</h3>
+        <ul>${offre.missions.map(m => `<li>${m}</li>`).join("")}</ul>
+        <p style="font-size:13px;color:#b9d4da;"><strong style="color:#fff;">Compétences recherchées :</strong> ${offre.competences}</p>
+        <div class="actions">
+          <button class="btn-green" onclick="changerPage('cv'); fermerModal();">Préparer mon CV</button>
+          <button class="btn-outline" onclick="fermerModal()">Fermer</button>
+        </div>
+      `;
+      document.getElementById("backdrop").classList.add("open");
+    }
 
     function majCompte() {
       const btn = document.getElementById("btn-compte");
@@ -200,7 +311,7 @@
         <h2>${reg ? "Créer un compte sur stage.tn" : "Connexion"}</h2>
         <form onsubmit="sauverCompte(event, '${mode}')">
           ${reg ? `<div class="field"><label>Nom & Prénom</label><input id="u-nom" type="text" required /></div>
-          <div class="field"><label>Formation</label><select id="u-cat"><option>Licence</option><option>Ingénieur</option><option>Master</option><option>BTS / Technicien</option></select></div>` : ""}
+          <div class="field"><label>Formation</label><select id="u-cat"><option>Licence</option><option>Ingénieur</option><option>Master</option><option>Doctorat</option><option>BTS / Technicien</option><option>Cybersécurité & Dev</option></select></div>` : ""}
           <div class="field"><label>Email</label><input id="u-mail" type="email" required /></div>
           <div class="field"><label>Mot de passe</label><input id="u-pass" type="password" required /></div>
           <div class="actions">
@@ -257,7 +368,16 @@
     function afficherOffres() {
       const zone = document.getElementById("liste-offres");
       const items = offres.filter(o => catCourante === "Tous" || o.cat === catCourante);
-      zone.innerHTML = items.map(o => `<div class="card"><h3>${o.titre}</h3><p>${o.cat} — ${o.lieu}</p></div>`).join("");
+      zone.innerHTML = items.map(o => `
+        <div class="card">
+          <div>
+            <div class="meta-offre">${o.cat} • ${o.lieu} • ${o.duree}</div>
+            <h3>${o.titre}</h3>
+            <p>${o.resume}</p>
+          </div>
+          <button class="btn-outline" onclick="voirDescriptionOffre(${o.id})">Voir la description</button>
+        </div>
+      `).join("");
     }
 
     function analyserCV() {
